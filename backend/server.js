@@ -19,9 +19,11 @@ mongoose.connect(URI, {
     console.log('Connected to MongoDb')
 }) 
 
-app.get('/', (req, res)=>{
-    res.json({msg: "Get method connect. "})
-})
+
+
+
+// Router
+app.use('/user', require('./routes/userRoute'))
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT, () =>{
