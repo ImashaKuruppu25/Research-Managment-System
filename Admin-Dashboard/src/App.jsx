@@ -6,8 +6,8 @@ import MainLayout from "./layout/MainLayout";
 import Submissions from "./pages/Submissions";
 import Groups from "./pages/Groups";
 import Users from "./pages/Users/Users";
-import Settings from "./pages/Settings";
 import Markings from "./pages/Markings";
+import Documents from "./pages/Documents";
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
           <Route path="submissions" element={<Submissions />} />
           <Route path="groups" element={<Groups />} />
           <Route path="users" element={<Users />} />
-          <Route path="settings" element={<Settings />} />
+          <Route path="documents" element={<Documents />} />
           <Route path="markings" element={<Markings />} />
         </Route>
       </Routes>

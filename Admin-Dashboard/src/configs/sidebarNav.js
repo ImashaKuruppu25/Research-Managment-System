@@ -30,10 +30,10 @@ const sidebarNav = [
     text: "Markings",
   },
   {
-    link: "/settings",
-    section: "settings",
-    icon: <i className="bx bx-cog"></i>,
-    text: "Settings",
+    link: "/documents",
+    section: "documents",
+    icon: <i className="bx bx-file"></i>,
+    text: "Documents",
   },
 ];
 
