@@ -13,7 +13,7 @@ const Documents = () => {
   return (
     <div className="file-upload-container">
       <div className="App">
-        <h1>Upload Documents</h1>
+        <h1 style={{ fontWeight: "200" }}>Upload Documents</h1>
         <br />
         <FileUpload
           value={files}

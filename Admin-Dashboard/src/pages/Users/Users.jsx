@@ -2,6 +2,7 @@ import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import "./Users.scss";
 import { MdDelete } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 const Users = () => {
   const columns = [
@@ -28,7 +29,9 @@ const Users = () => {
       renderCell: (params) => {
         return (
           <div className="userlist-container">
-            <button className="userlist-edit-btn">Update</button>
+            <Link to={"/users/" + params.row.id}>
+              <button className="userlist-edit-btn">Update</button>
+            </Link>
 
             <MdDelete className="userlist-delete-btn" />
           </div>
