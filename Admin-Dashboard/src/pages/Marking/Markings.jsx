@@ -1,5 +1,4 @@
 import React from "react";
-import { Button, Card } from "react-bootstrap";
 import { MdOutlineCloudUpload } from "react-icons/md";
 import { ImCancelCircle } from "react-icons/im";
 import { Link } from "react-router-dom";

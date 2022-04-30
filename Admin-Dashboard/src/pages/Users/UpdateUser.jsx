@@ -1,13 +1,12 @@
 import React from "react";
 import {
-  MdCalendarToday,
   MdLocationSearching,
   MdMailOutline,
   MdPermIdentity,
   MdPhoneAndroid,
   MdPublish,
 } from "react-icons/md";
-import { Link } from "react-router-dom";
+
 import "./UpdateUser.scss";
 
 const UpdateUser = () => {
