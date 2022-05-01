@@ -1,7 +1,6 @@
 {
-  "name": "ecommerce-dashboard",
-  "version": "0.1.0",
-  "private": true,
+  "name": "Research Management System | Admin Dashboard",
+  "version": "1.0.0",
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
@@ -26,8 +25,7 @@
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
     "sass": "^1.48.0",
-    "styled-components": "^5.3.5",
-    "web-vitals": "^2.1.0"
+    "styled-components": "^5.3.5"
   },
   "scripts": {
     "start": "react-scripts start",

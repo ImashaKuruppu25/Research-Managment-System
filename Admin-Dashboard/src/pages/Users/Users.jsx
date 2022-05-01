@@ -190,6 +190,8 @@ const Users = () => {
   return (
     <div>
       <div style={{ height: 550, width: "100%" }}>
+        <h1 style={{ fontWeight: "200" }}>Registered User List</h1>
+        <br />
         <DataGrid
           rows={rows}
           columns={columns}

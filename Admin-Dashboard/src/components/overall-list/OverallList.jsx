@@ -2,13 +2,6 @@ import React from "react";
 import "./overall-list.scss";
 import { data } from "../../constants";
 
-const icons = [
-  <i className="bx bx-notification"></i>,
-  <i className="bx bx-user"></i>,
-  <i className="bx bx-cube"></i>,
-  <i className="bx bx-dollar"></i>,
-];
-
 const OverallList = () => {
   return (
     <div className="notification-container">
@@ -18,9 +11,6 @@ const OverallList = () => {
       >
         {data.overall.map((item, index) => (
           <li className="overall-list__item" key={`overall-${index}`}>
-            {/* <div className="overall-list__item__icon">
-            <MdNotificationsActive />
-          </div> */}
             <div className="overall-list__item__info">
               <div className="title" style={{ fontSize: "16px" }}>
                 🔔{item.value}

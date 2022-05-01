@@ -1,8 +1,6 @@
-import images from "./images";
-
 const data = {
   user: {
-    name: "Hasith Deminda",
+    name: "Welcome Back Admin !",
     img: "https://res.cloudinary.com/desnqqj6a/image/upload/v1649172476/My_Img_qvpnz3.jpg",
   },
   summary: [
@@ -31,14 +29,7 @@ const data = {
       percent: 100,
     },
   ],
-  //   revenueSummary: {
-  //     title: "Total Users",
-  //     value: "65",
-  //     chartData: {
-  //       labels: ["May", "Jun", "July", "Aug", "May", "Jun", "July", "Aug"],
-  //       data: [300, 300, 280, 380, 200, 300, 280, 350],
-  //     },
-  //   },
+
   overall: [
     {
       value: "New Notification!",
