@@ -34,7 +34,7 @@ const UploadMarkingScheme = () => {
                 fontWeight: "200",
               }}
             >
-              Upload Marking Here <MdCloudUpload style={{ color: "red" }} />
+              Upload Marking Doc Here <MdCloudUpload style={{ color: "red" }} />
             </span>
             <div class="input-box">
               <input
