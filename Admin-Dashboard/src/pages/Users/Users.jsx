@@ -1,10 +1,51 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import "./Users.scss";
 import { MdDelete } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Users = () => {
+  const [users, setUsers] = useState([
+    {
+      name: "",
+      email: "",
+      phone: "",
+      role: "",
+      image: "",
+    },
+  ]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const getUsers = async () => {
+      await axios
+        .get("http://localhost:5000/admin/adminGetAllUsers")
+
+        .then((res) => {
+          setUsers(res.data);
+        })
+        .catch((err) => {
+          alert(err.message);
+        });
+    };
+    getUsers();
+  }, []);
+
+  //Delete a User
+  function deleteHandler(_id) {
+    axios
+      .delete(`http://localhost:5000/admin/adminDeleteUser/${_id}`)
+
+      .then((res) => {
+        alert("User Deleted!");
+
+        navigate("/users");
+      })
+
+      .catch();
+  }
+
   const columns = [
     { field: "id", headerName: "ID", width: 70 },
     {
@@ -33,7 +74,10 @@ const Users = () => {
               <button className="userlist-edit-btn">Update</button>
             </Link>
 
-            <MdDelete className="userlist-delete-btn" />
+            <MdDelete
+              className="userlist-delete-btn"
+              onClick={() => deleteHandler(users._id)}
+            />
           </div>
         );
       },
@@ -43,142 +87,6 @@ const Users = () => {
   const rows = [
     {
       id: 1,
-      avatar:
-        "https://res.cloudinary.com/desnqqj6a/image/upload/v1650175831/fitness_dmymhn.png",
-      userName: "Hasith Deminda",
-      email: "Hasith@gmail.com",
-      role: "STUDENT",
-    },
-    {
-      id: 2,
-      avatar:
-        "https://res.cloudinary.com/desnqqj6a/image/upload/v1650175831/fitness_dmymhn.png",
-      userName: "Hasith Deminda",
-      email: "Hasith@gmail.com",
-      role: "STUDENT",
-    },
-    {
-      id: 3,
-      avatar:
-        "https://res.cloudinary.com/desnqqj6a/image/upload/v1650175831/fitness_dmymhn.png",
-      userName: "Hasith Deminda",
-      email: "Hasith@gmail.com",
-      role: "STUDENT",
-    },
-    {
-      id: 4,
-      avatar:
-        "https://res.cloudinary.com/desnqqj6a/image/upload/v1650175831/fitness_dmymhn.png",
-      userName: "Hasith Deminda",
-      email: "Hasith@gmail.com",
-      role: "STUDENT",
-    },
-    {
-      id: 5,
-      avatar:
-        "https://res.cloudinary.com/desnqqj6a/image/upload/v1650175831/fitness_dmymhn.png",
-      userName: "Hasith Deminda",
-      email: "Hasith@gmail.com",
-      role: "STUDENT",
-    },
-    {
-      id: 6,
-      avatar:
-        "https://res.cloudinary.com/desnqqj6a/image/upload/v1650175831/fitness_dmymhn.png",
-      userName: "Hasith Deminda",
-      email: "Hasith@gmail.com",
-      role: "STUDENT",
-    },
-    {
-      id: 7,
-      avatar:
-        "https://res.cloudinary.com/desnqqj6a/image/upload/v1650175831/fitness_dmymhn.png",
-      userName: "Hasith Deminda",
-      email: "Hasith@gmail.com",
-      role: "STUDENT",
-    },
-    {
-      id: 8,
-      avatar:
-        "https://res.cloudinary.com/desnqqj6a/image/upload/v1650175831/fitness_dmymhn.png",
-      userName: "Hasith Deminda",
-      email: "Hasith@gmail.com",
-      role: "STUDENT",
-    },
-    {
-      id: 9,
-      avatar:
-        "https://res.cloudinary.com/desnqqj6a/image/upload/v1650175831/fitness_dmymhn.png",
-      userName: "Hasith Deminda",
-      email: "Hasith@gmail.com",
-      role: "STUDENT",
-    },
-    {
-      id: 10,
-      avatar:
-        "https://res.cloudinary.com/desnqqj6a/image/upload/v1650175831/fitness_dmymhn.png",
-      userName: "Hasith Deminda",
-      email: "Hasith@gmail.com",
-      role: "STUDENT",
-    },
-    {
-      id: 11,
-      avatar:
-        "https://res.cloudinary.com/desnqqj6a/image/upload/v1650175831/fitness_dmymhn.png",
-      userName: "Hasith Deminda",
-      email: "Hasith@gmail.com",
-      role: "STUDENT",
-    },
-    {
-      id: 12,
-      avatar:
-        "https://res.cloudinary.com/desnqqj6a/image/upload/v1650175831/fitness_dmymhn.png",
-      userName: "Hasith Deminda",
-      email: "Hasith@gmail.com",
-      role: "STUDENT",
-    },
-    {
-      id: 13,
-      avatar:
-        "https://res.cloudinary.com/desnqqj6a/image/upload/v1650175831/fitness_dmymhn.png",
-      userName: "Hasith Deminda",
-      email: "Hasith@gmail.com",
-      role: "STUDENT",
-    },
-    {
-      id: 14,
-      avatar:
-        "https://res.cloudinary.com/desnqqj6a/image/upload/v1650175831/fitness_dmymhn.png",
-      userName: "Hasith Deminda",
-      email: "Hasith@gmail.com",
-      role: "STUDENT",
-    },
-    {
-      id: 15,
-      avatar:
-        "https://res.cloudinary.com/desnqqj6a/image/upload/v1650175831/fitness_dmymhn.png",
-      userName: "Hasith Deminda",
-      email: "Hasith@gmail.com",
-      role: "STUDENT",
-    },
-    {
-      id: 16,
-      avatar:
-        "https://res.cloudinary.com/desnqqj6a/image/upload/v1650175831/fitness_dmymhn.png",
-      userName: "Hasith Deminda",
-      email: "Hasith@gmail.com",
-      role: "STUDENT",
-    },
-    {
-      id: 17,
-      avatar:
-        "https://res.cloudinary.com/desnqqj6a/image/upload/v1650175831/fitness_dmymhn.png",
-      userName: "Hasith Deminda",
-      email: "Hasith@gmail.com",
-      role: "STUDENT",
-    },
-    {
-      id: 18,
       avatar:
         "https://res.cloudinary.com/desnqqj6a/image/upload/v1650175831/fitness_dmymhn.png",
       userName: "Hasith Deminda",
