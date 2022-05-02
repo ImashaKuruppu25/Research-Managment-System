@@ -6,31 +6,41 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Users = () => {
-  const [users, setUsers] = useState([
-    {
-      name: "",
-      email: "",
-      phone: "",
-      role: "",
-      image: "",
-    },
-  ]);
+  const [users, setUsers] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const getUsers = async () => {
-      await axios
+    const prepareUsers = async () => {
+      const pUsers = await axios
         .get("http://localhost:5000/admin/adminGetAllUsers")
 
         .then((res) => {
-          setUsers(res.data);
+          return res.data;
         })
         .catch((err) => {
           alert(err.message);
         });
+      // console.log(users);
+      let preparedUsersArr = [];
+
+      for (let i = 0; i < pUsers.length; i++) {
+        let userObj = {
+          id: pUsers[i]._id,
+          avatar: pUsers[i].image,
+          name: pUsers[i].name,
+          email: pUsers[i].email,
+          role: pUsers[i].role,
+          phone: pUsers[i].phone,
+        };
+        preparedUsersArr.push(userObj);
+      }
+      setUsers(preparedUsersArr);
     };
-    getUsers();
+
+    prepareUsers();
   }, []);
+
+  // console.log(users);
 
   //Delete a User
   function deleteHandler(_id) {
@@ -47,16 +57,16 @@ const Users = () => {
   }
 
   const columns = [
-    { field: "id", headerName: "ID", width: 70 },
+    { field: "id", headerName: "ID", width: 100 },
     {
-      field: "userName",
+      field: "name",
       headerName: "Full name",
       width: 300,
       renderCell: (params) => {
         return (
           <div className="userlist-container">
             <img className="userlist-img" src={params.row.avatar} alt="" />
-            {params.row.userName}
+            {params.row.name}
           </div>
         );
       },
@@ -100,8 +110,9 @@ const Users = () => {
       <div style={{ height: 550, width: "100%" }}>
         <h1 style={{ fontWeight: "200" }}>Registered User List</h1>
         <br />
+
         <DataGrid
-          rows={rows}
+          rows={users}
           columns={columns}
           pageSize={8}
           rowsPerPageOptions={[5]}
