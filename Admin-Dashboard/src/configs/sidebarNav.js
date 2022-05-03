@@ -24,6 +24,12 @@ const sidebarNav = [
     text: "Users",
   },
   {
+    link: "/userRoles",
+    section: "userRoles",
+    icon: <i className="bx bx-user"></i>,
+    text: "User Roles",
+  },
+  {
     link: "/markings",
     section: "markings",
     icon: <i className="bx bx-line-chart"></i>,

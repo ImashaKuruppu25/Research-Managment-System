@@ -11,6 +11,7 @@ import Documents from "./pages/Documents";
 import ViewGroup from "./pages/Groups/ViewGroup";
 import UpdateUser from "./pages/Users/UpdateUser";
 import UploadMarkingScheme from "./pages/Marking/UploadMarkingScheme";
+import UserRoles from "./pages/UserRoles/UserRoles";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="groups" element={<Groups />} />
           <Route path="users" element={<Users />} />
           <Route path="users/:id" element={<UpdateUser />} />
+          <Route path="userRoles" element={<UserRoles />} />
           <Route path="documents" element={<Documents />} />
           <Route path="markings" element={<Markings />} />
           <Route path="markings/create" element={<UploadMarkingScheme />} />
