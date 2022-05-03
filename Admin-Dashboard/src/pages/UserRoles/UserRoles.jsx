@@ -5,6 +5,9 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { MdDelete, MdPersonAdd } from "react-icons/md";
+import { FaEdit } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const UserRoles = () => {
   return (
@@ -106,7 +109,26 @@ const UserRoles = () => {
       </div>
 
       <div className="panel-members-list">
-        <h1 style={{ fontWeight: "400" }}>Panels & Panel Members</h1>
+        <div
+          className="panel-header"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <h1 style={{ fontWeight: "400" }}>Panels & Panel Members</h1>
+          <Link to="/userRoles/createPanel">
+            <button
+              className="upload-marking"
+              style={{ padding: "15px", maxWidth: "220px" }}
+            >
+              <MdPersonAdd style={{ fontSize: "24px" }} />
+              <span>Assign Panel Members</span>
+            </button>
+          </Link>
+        </div>
+
         <Accordion
           style={{
             margin: "20px 0px",
@@ -120,7 +142,29 @@ const UserRoles = () => {
             id="panel1a-header"
           >
             <Typography style={{ fontSize: "20px", fontWeight: "700" }}>
-              Evaluation Panel 1
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <span>Evaluation Panel 1</span>
+                <div
+                  className="edit-delete"
+                  style={{
+                    display: "flex",
+                    gap: "10px",
+                    marginRight: "-1100px",
+                  }}
+                >
+                  <Link to={`/userRoles/edit/`}>
+                    <FaEdit style={{ fontSize: "24px", color: "teal" }} />
+                  </Link>
+
+                  <MdDelete style={{ fontSize: "24px", color: "red" }} />
+                </div>
+              </div>
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
@@ -217,11 +261,12 @@ const UserRoles = () => {
                 <div
                   className="assigned-groups"
                   style={{
-                    margin: "20px 150px",
+                    margin: "20px 0px",
                     maxHeight: "375px",
                     overflowY: "auto",
-                    paddingRight: "20px",
+                    paddingRight: "30px",
                     maxWidth: "700px",
+                    marginLeft: "150px",
                   }}
                 >
                   <div>
@@ -426,7 +471,29 @@ const UserRoles = () => {
             id="panel1a-header"
           >
             <Typography style={{ fontSize: "20px", fontWeight: "700" }}>
-              Evaluation Panel 2
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <span>Evaluation Panel 2</span>
+                <div
+                  className="edit-delete"
+                  style={{
+                    display: "flex",
+                    gap: "10px",
+                    marginRight: "-1100px",
+                  }}
+                >
+                  <Link to={`/userRoles/edit/`}>
+                    <FaEdit style={{ fontSize: "24px", color: "teal" }} />
+                  </Link>
+
+                  <MdDelete style={{ fontSize: "24px", color: "red" }} />
+                </div>
+              </div>
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
@@ -523,11 +590,12 @@ const UserRoles = () => {
                 <div
                   className="assigned-groups"
                   style={{
-                    margin: "20px 150px",
+                    margin: "20px 0px",
                     maxHeight: "375px",
                     overflowY: "auto",
-                    paddingRight: "20px",
+                    paddingRight: "30px",
                     maxWidth: "700px",
+                    marginLeft: "150px",
                   }}
                 >
                   <div>
@@ -732,7 +800,29 @@ const UserRoles = () => {
             id="panel1a-header"
           >
             <Typography style={{ fontSize: "20px", fontWeight: "700" }}>
-              Evaluation Panel 3
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <span>Evaluation Panel 3</span>
+                <div
+                  className="edit-delete"
+                  style={{
+                    display: "flex",
+                    gap: "10px",
+                    marginRight: "-1100px",
+                  }}
+                >
+                  <Link to={`/userRoles/edit/`}>
+                    <FaEdit style={{ fontSize: "24px", color: "teal" }} />
+                  </Link>
+
+                  <MdDelete style={{ fontSize: "24px", color: "red" }} />
+                </div>
+              </div>
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
@@ -829,11 +919,12 @@ const UserRoles = () => {
                 <div
                   className="assigned-groups"
                   style={{
-                    margin: "20px 150px",
+                    margin: "20px 0px",
                     maxHeight: "375px",
                     overflowY: "auto",
-                    paddingRight: "20px",
+                    paddingRight: "30px",
                     maxWidth: "700px",
+                    marginLeft: "150px",
                   }}
                 >
                   <div>
@@ -1038,7 +1129,29 @@ const UserRoles = () => {
             id="panel1a-header"
           >
             <Typography style={{ fontSize: "20px", fontWeight: "700" }}>
-              Evaluation Panel 4
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <span>Evaluation Panel 4</span>
+                <div
+                  className="edit-delete"
+                  style={{
+                    display: "flex",
+                    gap: "10px",
+                    marginRight: "-1100px",
+                  }}
+                >
+                  <Link to={`/userRoles/edit/`}>
+                    <FaEdit style={{ fontSize: "24px", color: "teal" }} />
+                  </Link>
+
+                  <MdDelete style={{ fontSize: "24px", color: "red" }} />
+                </div>
+              </div>
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
@@ -1135,11 +1248,12 @@ const UserRoles = () => {
                 <div
                   className="assigned-groups"
                   style={{
-                    margin: "20px 150px",
+                    margin: "20px 0px",
                     maxHeight: "375px",
                     overflowY: "auto",
-                    paddingRight: "20px",
+                    paddingRight: "30px",
                     maxWidth: "700px",
+                    marginLeft: "150px",
                   }}
                 >
                   <div>
