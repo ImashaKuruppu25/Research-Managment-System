@@ -120,7 +120,7 @@ const ViewGroup = () => {
               Update Group Details
             </span>
             <form className="userUpdateForm">
-              <div className="userUpdateLeft">
+              <div className="userUpdateLeft" style={{ marginRight: "20px" }}>
                 <div className="userUpdateItem">
                   <label>Group Name</label>
                   <input

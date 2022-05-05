@@ -7,7 +7,7 @@ const Groups = () => {
     {
       field: "groupName",
       headerName: "Group Name",
-      width: 250,
+      width: 150,
       renderCell: (params) => {
         return <div className="userlist-container">{params.row.groupName}</div>;
       },

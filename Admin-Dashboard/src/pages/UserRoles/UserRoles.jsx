@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./UserRoles.scss";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -8,8 +8,89 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { MdDelete, MdPersonAdd } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const UserRoles = () => {
+  const [admin, setAdmin] = useState([
+    {
+      name: "",
+      email: "",
+      role: "",
+      image: "",
+      phone: "",
+    },
+  ]);
+  const [staff, setStaff] = useState([
+    {
+      name: "",
+      email: "",
+      role: "",
+      image: "",
+      phone: "",
+    },
+  ]);
+  const [students, setStudents] = useState([
+    {
+      name: "",
+      email: "",
+      role: "",
+      image: "",
+      phone: "",
+    },
+  ]);
+
+  useEffect(() => {
+    function getAdminList() {
+      axios
+
+        .get("http://localhost:5000/panel/allAdmins/")
+
+        .then((res) => {
+          console.log(res.data);
+
+          setAdmin(res.data);
+        })
+
+        .catch((err) => {
+          alert(err.message);
+        });
+    }
+    function getStaffList() {
+      axios
+
+        .get("http://localhost:5000/panel/allStaff/")
+
+        .then((res) => {
+          console.log(res.data);
+
+          setStaff(res.data);
+        })
+
+        .catch((err) => {
+          alert(err.message);
+        });
+    }
+    function getStudentList() {
+      axios
+
+        .get("http://localhost:5000/panel/allStudents/")
+
+        .then((res) => {
+          console.log(res.data);
+
+          setStudents(res.data);
+        })
+
+        .catch((err) => {
+          alert(err.message);
+        });
+    }
+
+    getAdminList();
+    getStaffList();
+    getStudentList();
+  }, []);
+
   return (
     <div className="userRoles-section">
       <div className="userRoles-container">
@@ -18,30 +99,9 @@ const UserRoles = () => {
             <div className="userRoles-card-title">ADMIN LIST</div>
             <hr style={{ margin: "20px 0px", border: "1px solid red" }} />
             <div className="user-list">
-              <h4 className="userRoles-card-description">Hasith Deminda 1</h4>
-              <h4 className="userRoles-card-description">Gimhana Dissnayake</h4>
-              <h4 className="userRoles-card-description">Hasith Deminda</h4>
-              <h4 className="userRoles-card-description">Hasith Deminda</h4>
-              <h4 className="userRoles-card-description">Hasith Deminda</h4>
-              <h4 className="userRoles-card-description">Hasith Deminda</h4>
-              <h4 className="userRoles-card-description">Hasith Deminda</h4>
-              <h4 className="userRoles-card-description">Gimhana Dissnayake</h4>
-              <h4 className="userRoles-card-description">Hasith Deminda</h4>
-              <h4 className="userRoles-card-description">Hasith Deminda</h4>
-              <h4 className="userRoles-card-description">Hasith Deminda</h4>
-              <h4 className="userRoles-card-description">Hasith Deminda</h4>
-              <h4 className="userRoles-card-description">Hasith Deminda</h4>
-              <h4 className="userRoles-card-description">Gimhana Dissnayake</h4>
-              <h4 className="userRoles-card-description">Hasith Deminda</h4>
-              <h4 className="userRoles-card-description">Hasith Deminda</h4>
-              <h4 className="userRoles-card-description">Hasith Deminda</h4>
-              <h4 className="userRoles-card-description">Hasith Deminda</h4>
-              <h4 className="userRoles-card-description">Hasith Deminda</h4>
-              <h4 className="userRoles-card-description">Gimhana Dissnayake</h4>
-              <h4 className="userRoles-card-description">Hasith Deminda</h4>
-              <h4 className="userRoles-card-description">Hasith Deminda</h4>
-              <h4 className="userRoles-card-description">Hasith Deminda</h4>
-              <h4 className="userRoles-card-description">Hasith Deminda</h4>
+              {admin.map((admin) => (
+                <h4 className="userRoles-card-description">{admin.name}</h4>
+              ))}
             </div>
           </div>
         </div>
@@ -51,43 +111,9 @@ const UserRoles = () => {
             <div className="userRoles-card-title">STAFF LIST</div>
             <hr style={{ margin: "20px 0px", border: "1px solid red" }} />
             <div className="user-list">
-              <h4 className="userRoles-card-description">
-                Hasith Deminda Gunathilake Siriwadena
-              </h4>
-              <h4 className="userRoles-card-description">
-                Hasith Deminda Gunathilake Siriwadena
-              </h4>
-              <h4 className="userRoles-card-description">
-                Hasith Deminda Gunathilake Siriwadena
-              </h4>
-              <h4 className="userRoles-card-description">
-                Hasith Deminda Gunathilake Siriwadena
-              </h4>
-              <h4 className="userRoles-card-description">
-                Hasith Deminda Gunathilake Siriwadena
-              </h4>
-              <h4 className="userRoles-card-description">
-                Hasith Deminda Gunathilake Siriwadena
-              </h4>
-              <h4 className="userRoles-card-description">
-                Hasith Deminda Gunathilake Siriwadena
-              </h4>
-              <h4 className="userRoles-card-description">
-                Hasith Deminda Gunathilake Siriwadena
-              </h4>
-              <h4 className="userRoles-card-description">
-                Hasith Deminda Gunathilake Siriwadena
-              </h4>
-              <h4 className="userRoles-card-description">
-                Hasith Deminda Gunathilake Siriwadena
-              </h4>
-              <h4 className="userRoles-card-description">
-                Hasith Deminda Gunathilake Siriwadena
-              </h4>
-              <h4 className="userRoles-card-description">Hasith Deminda</h4>
-              <h4 className="userRoles-card-description">Hasith Deminda</h4>
-              <h4 className="userRoles-card-description">Hasith Deminda</h4>
-              <h4 className="userRoles-card-description">Hasith Deminda</h4>
+              {staff.map((staff) => (
+                <h4 className="userRoles-card-description">{staff.name}</h4>
+              ))}
             </div>
           </div>
         </div>
@@ -97,12 +123,9 @@ const UserRoles = () => {
             <div className="userRoles-card-title">STUDENT LIST</div>
             <hr style={{ margin: "20px 0px", border: "1px solid red" }} />
             <div className="user-list">
-              <h4 className="userRoles-card-description">Hasith Deminda</h4>
-              <h4 className="userRoles-card-description">Hasith Deminda</h4>
-              <h4 className="userRoles-card-description">Hasith Deminda</h4>
-              <h4 className="userRoles-card-description">Hasith Deminda</h4>
-              <h4 className="userRoles-card-description">Hasith Deminda</h4>
-              <h4 className="userRoles-card-description">Hasith Deminda</h4>
+              {students.map((students) => (
+                <h4 className="userRoles-card-description">{students.name}</h4>
+              ))}
             </div>
           </div>
         </div>
@@ -155,7 +178,7 @@ const UserRoles = () => {
                   style={{
                     display: "flex",
                     gap: "10px",
-                    marginRight: "-1100px",
+                    marginRight: "-950px",
                   }}
                 >
                   <Link to={`/userRoles/edit/`}>
@@ -484,7 +507,7 @@ const UserRoles = () => {
                   style={{
                     display: "flex",
                     gap: "10px",
-                    marginRight: "-1100px",
+                    marginRight: "-950px",
                   }}
                 >
                   <Link to={`/userRoles/edit/`}>
@@ -813,7 +836,7 @@ const UserRoles = () => {
                   style={{
                     display: "flex",
                     gap: "10px",
-                    marginRight: "-1100px",
+                    marginRight: "-950px",
                   }}
                 >
                   <Link to={`/userRoles/edit/`}>
@@ -1142,7 +1165,7 @@ const UserRoles = () => {
                   style={{
                     display: "flex",
                     gap: "10px",
-                    marginRight: "-1100px",
+                    marginRight: "-950px",
                   }}
                 >
                   <Link to={`/userRoles/edit/`}>
