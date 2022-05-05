@@ -1,26 +1,29 @@
 const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema(
+const panelSchema = new mongoose.Schema(
   {
     name: {
       type: String,
       required: true,
-      trim: true,
     },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    password: {
+    description: {
       type: String,
       required: true,
     },
-    role: {
+    panelHead: {
       type: String,
       required: true,
-      enum: ["STUDENT", "ADMIN", "STAFF"],
-      default: "STUDENT",
+    },
+    member1: {
+      type: String,
+      required: true,
+    },
+    member2: {
+      type: String,
+      required: true,
+    },
+    extraMember: {
+      type: String,
     },
   },
   {
@@ -28,4 +31,4 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Users", userSchema);
+module.exports = mongoose.model("Panel", panelSchema);
