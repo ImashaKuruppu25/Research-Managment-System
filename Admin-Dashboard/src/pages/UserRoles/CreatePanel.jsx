@@ -88,7 +88,7 @@ const CreatePanel = () => {
                 Assign Panel Members to Panel
               </span>
               <form className="userUpdateForm">
-                <div className="userUpdateLeft">
+                <div className="userUpdateLeft" style={{ marginRight: "20px" }}>
                   <div className="userUpdateItem">
                     <label>Panel Name</label>
                     <input
@@ -154,7 +154,9 @@ const CreatePanel = () => {
                 </div>
               </form>
               <br />
-              <Button className="userUpdateButton">Submit</Button>
+              <Button type="submit" className="userUpdateButton">
+                Submit
+              </Button>
             </div>
           </div>
         </div>

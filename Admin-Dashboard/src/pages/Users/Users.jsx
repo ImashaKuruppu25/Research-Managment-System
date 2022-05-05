@@ -71,7 +71,7 @@ const Users = () => {
         );
       },
     },
-    { field: "email", headerName: "Email", width: 300 },
+    { field: "email", headerName: "Email", width: 200 },
     { field: "role", headerName: "Role", width: 150 },
     {
       field: "action",
@@ -106,7 +106,7 @@ const Users = () => {
   ];
 
   return (
-    <div>
+    <div style={{ overflowY: "hidden" }}>
       <div style={{ height: 550, width: "100%" }}>
         <h1 style={{ fontWeight: "200" }}>Registered User List</h1>
         <br />
@@ -118,6 +118,7 @@ const Users = () => {
           rowsPerPageOptions={[5]}
           checkboxSelection
           disableSelectionOnClick
+          style={{ overflowX: "auto" }}
         />
       </div>
     </div>
