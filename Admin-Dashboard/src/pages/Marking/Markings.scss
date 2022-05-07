@@ -27,8 +27,8 @@
 
   .marking-card {
     border-radius: 25px;
-    max-width: 350px;
-    max-height: 475px;
+    max-width: 300px;
+    max-height: 575px;
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -40,14 +40,18 @@
       font-size: 28px;
       color: rgb(219, 25, 12);
       cursor: pointer;
-      margin-left: 110%;
+      margin-top: -40px;
+      margin-left: 300px;
     }
 
     .marking-card-title {
       text-align: center;
-      font-size: 28px;
+      font-size: 20px;
       font-weight: bold;
       margin: 20px 5px;
+      margin-top: 10px;
+      max-height: 120px !important;
+      min-height: 100px;
     }
 
     .marking-card-description {

@@ -1,10 +1,54 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { MdOutlineCloudUpload } from "react-icons/md";
 import { ImCancelCircle } from "react-icons/im";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./Markings.scss";
 
 const Markings = () => {
+  const [marking, setMarking] = useState([
+    {
+      topic: "",
+      description: "",
+      doc: "",
+    },
+  ]);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    function getMarkingSchemes() {
+      axios
+
+        .get("http://localhost:5000/marking/getAllMarkings/")
+
+        .then((res) => {
+          console.log(res.data);
+
+          setMarking(res.data);
+        })
+
+        .catch((err) => {
+          alert(err.message);
+        });
+    }
+
+    getMarkingSchemes();
+  }, []);
+
+  function deleteHandler(_id) {
+    axios
+      .delete(`http://localhost:5000/marking/deleteMarking/${_id}`)
+
+      .then((res) => {
+        alert("Marking Scheme Deleted!");
+
+        navigate("/markings");
+      })
+
+      .catch();
+  }
+
   return (
     <>
       <div className="button-container-upload" style={{ maxWidth: "250px" }}>
@@ -18,175 +62,25 @@ const Markings = () => {
       <br />
 
       <div className="marking-container">
-        <div className="marking-card">
-          <div className="card-header-delete">
-            <ImCancelCircle />
+        {marking.map((marking) => (
+          <div className="marking-card">
+            <div className="card-header-delete">
+              <ImCancelCircle onClick={() => deleteHandler(marking._id)} />
+            </div>
+            <div className="marking-card-title">{marking.topic}</div>
+            <div className="marking-card-description">
+              {marking.description}
+            </div>
+            <div className="marking-card-button">
+              <button
+                variant="primary"
+                onClick={() => window.open(marking.doc)}
+              >
+                Download Marking Scheme
+              </button>
+            </div>
           </div>
-          <div className="marking-card-title">
-            Software Development Life Cycle
-          </div>
-          <div className="marking-card-description">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis
-            eligendi labore a dolore. Saepe quas amet nostrum! Dignissimos sunt
-            quia ut ullam nam atque nulla eligendi assumenda mollitia tempora.
-            Dolorem.
-            <br />
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quaerat
-            soluta odit assumenda sunt. Nostrum, corporis.
-          </div>
-          <div className="marking-card-button">
-            <button
-              variant="primary"
-              onClick={() =>
-                window.open("http://www.africau.edu/images/default/sample.pdf")
-              }
-            >
-              Download Marking Scheme
-            </button>
-          </div>
-        </div>
-
-        <div className="marking-card">
-          <div className="card-header-delete">
-            <ImCancelCircle />
-          </div>
-          <div className="marking-card-title">
-            Software Development Life Cycle
-          </div>
-          <div className="marking-card-description">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis,
-            veritatis?
-          </div>
-          <div className="marking-card-button">
-            <button
-              variant="primary"
-              onClick={() =>
-                window.open("http://www.africau.edu/images/default/sample.pdf")
-              }
-            >
-              Download Marking Scheme
-            </button>
-          </div>
-        </div>
-
-        <div className="marking-card">
-          <div className="card-header-delete">
-            <ImCancelCircle />
-          </div>
-          <div className="marking-card-title">
-            Software Development Life Cycle
-          </div>
-          <div className="marking-card-description">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis
-            eligendi labore a dolore. Saepe quas amet nostrum! Dignissimos sunt
-            quia ut ullam nam atque nulla eligendi assumenda mollitia tempora.
-            Dolorem.
-          </div>
-          <div className="marking-card-button">
-            <button
-              variant="primary"
-              onClick={() =>
-                window.open("http://www.africau.edu/images/default/sample.pdf")
-              }
-            >
-              Download Marking Scheme
-            </button>
-          </div>
-        </div>
-
-        <div className="marking-card">
-          <div className="card-header-delete">
-            <ImCancelCircle />
-          </div>
-          <div className="marking-card-title">
-            Software Development Life Cycle
-          </div>
-          <div className="marking-card-description">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis
-            eligendi labore a dolore. Saepe quas amet nostrum! Dignissimos sunt
-            quia ut ullam nam atque nulla eligendi assumenda mollitia tempora.
-            Dolorem.
-            <br />
-            <br />
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aliquid
-            atque officia eligendi at repellendus placeat soluta? Totam,
-            cupiditate iure sunt harum veniam, odit rerum quod magnam pariatur
-            praesentium at necessitatibus.
-          </div>
-          <div className="marking-card-button">
-            <button
-              variant="primary"
-              onClick={() =>
-                window.open("http://www.africau.edu/images/default/sample.pdf")
-              }
-            >
-              Download Marking Scheme
-            </button>
-          </div>
-        </div>
-
-        <div className="marking-card">
-          <div className="card-header-delete">
-            <ImCancelCircle />
-          </div>
-          <div className="marking-card-title">
-            Software Development Life Cycle
-          </div>
-          <div className="marking-card-description">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis
-            eligendi labore a dolore. Saepe quas amet nostrum! Dignissimos sunt
-            quia ut ullam nam atque nulla eligendi assumenda mollitia tempora.
-            Dolorem.
-            <br />
-            <br />
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aliquid
-            atque officia eligendi at repellendus placeat soluta? Totam,
-            cupiditate iure sunt harum veniam, odit rerum quod magnam pariatur
-            praesentium at necessitatibus.
-          </div>
-          <div className="marking-card-button">
-            <button
-              variant="primary"
-              onClick={() =>
-                window.open("http://www.africau.edu/images/default/sample.pdf")
-              }
-            >
-              Download Marking Scheme
-            </button>
-          </div>
-        </div>
-
-        <div className="marking-card">
-          <div className="card-header-delete">
-            <ImCancelCircle />
-          </div>
-          <div className="marking-card-title">
-            Software Development Life Cycle
-          </div>
-          <div className="marking-card-description">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis
-            eligendi labore a dolore. Saepe quas amet nostrum! Dignissimos sunt
-            quia ut ullam nam atque nulla eligendi assumenda mollitia tempora.
-            Dolorem.
-            <br />
-            <br />
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aliquid
-            atque officia eligendi at repellendus placeat soluta? Totam,
-            cupiditate iure sunt harum veniam, odit rerum quod magnam pariatur
-            praesentium at necessitatibus.
-          </div>
-
-          <div className="marking-card-button">
-            <button
-              variant="primary"
-              onClick={() =>
-                window.open("http://www.africau.edu/images/default/sample.pdf")
-              }
-            >
-              Download Marking Scheme
-            </button>
-          </div>
-        </div>
+        ))}
       </div>
     </>
   );
