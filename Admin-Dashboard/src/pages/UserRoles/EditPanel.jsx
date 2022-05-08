@@ -1,7 +1,101 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
+import { useNavigate, useParams } from "react-router-dom";
 
 const EditPanel = () => {
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [panelHead, setPanelHead] = useState("");
+  const [member1, setMember1] = useState("");
+  const [member2, setMember2] = useState("");
+  const [extraMember, setExtraMember] = useState("");
+
+  let navigate = useNavigate();
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    getPanelDetails();
+  }, []);
+
+  const getPanelDetails = () => {
+    let mounted = true;
+
+    fetch(`http://localhost:5000/panel/getOnePanel/${id}`)
+      .then((res) => res.json())
+
+      .then((panel) => {
+        if (mounted) {
+          setName(panel.name);
+
+          setDescription(panel.description);
+
+          setPanelHead(panel.panelHead);
+
+          setMember1(panel.member1);
+
+          setMember2(panel.member2);
+
+          setExtraMember(panel.extraMember);
+        }
+      });
+
+    return () => (mounted = false);
+  };
+
+  const [staff, setStaff] = useState([
+    {
+      name: "",
+      email: "",
+      role: "",
+      image: "",
+      phone: "",
+    },
+  ]);
+
+  useEffect(() => {
+    function getStaffList() {
+      axios
+
+        .get("http://localhost:5000/panel/allStaff/")
+
+        .then((res) => {
+          console.log(res.data);
+
+          setStaff(res.data);
+        })
+
+        .catch((err) => {
+          alert(err.message);
+        });
+    }
+
+    getStaffList();
+  }, []);
+
+  const submitHandler = (event) => {
+    event.preventDefault();
+    const data = {
+      name,
+      description,
+      panelHead,
+      member1,
+      member2,
+      extraMember,
+    };
+
+    axios
+      .patch(`http://localhost:5000/panel/updatePanel/${id}`, data)
+      .then((res) => {
+        alert("Panel Updated Successfully!");
+        navigate("/userRoles");
+        console.log(data);
+      })
+      .catch((err) => {
+        alert("Database Error");
+      });
+  };
   return (
     <div>
       <div className="view-group-container" style={{ marginTop: "-25px" }}>
@@ -18,31 +112,26 @@ const EditPanel = () => {
             >
               <span className="userShowTitle">Panel Name</span>
               <br />
-              <span className="userShowUserTitle">
-                Complexity Matrix of Software Development Life Cycle
-              </span>
+              <span className="userShowUserTitle">{name}</span>
               <br />
               <br />
               <span className="userShowTitle">Description</span>
               <br />
-              <span className="userShowUserTitle">
-                Here's the panel memebers for this panel group. Panel contains 3
-                members and 1 has assigned as a Panel Head! If you need any
-                changed to be made, Contact the Admin!
-              </span>
+              <span className="userShowUserTitle">{description}</span>
               <div className="userShowBottom">
                 <span className="userShowTitle">Panel Head</span>
                 <div className="userShowTop">
                   <img
-                    src="https://res.cloudinary.com/desnqqj6a/image/upload/v1649172476/My_Img_qvpnz3.jpg"
+                    src={
+                      panelHead.image ||
+                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWKPfcYrCzZYwxa23OMrxtPlGxvtc_lRyf6Q&usqp=CAU"
+                    }
                     alt=""
                     className="userShowImg"
                   />
                   <div className="userShowTopTitle">
-                    <span className="userShowUsername">Hasith Deminda</span>
-                    <span className="userShowUserTitle">
-                      demindahasith@gmail.com
-                    </span>
+                    <span className="userShowUsername">{panelHead}</span>
+                    <span className="userShowUserTitle">{panelHead.email}</span>
                   </div>
                 </div>
               </div>
@@ -51,29 +140,31 @@ const EditPanel = () => {
                 <span className="userShowTitle">Panel Members</span>
                 <div className="userShowTop">
                   <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOOFMe-CzzMAgkPdsGK1wsKLtoF33HXGK98A&usqp=CAU"
+                    src={
+                      member1.image ||
+                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWKPfcYrCzZYwxa23OMrxtPlGxvtc_lRyf6Q&usqp=CAU"
+                    }
                     alt=""
                     className="userShowImg"
                   />
                   <div className="userShowTopTitle">
-                    <span className="userShowUsername">
-                      Prof.Nuwan Kodagoda
-                    </span>
-                    <span className="userShowUserTitle">nuwank@sliit.lk</span>
+                    <span className="userShowUsername">{member1}</span>
+                    <span className="userShowUserTitle">{member1.email}</span>
                   </div>
                 </div>
 
                 <div className="userShowTop">
                   <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOOFMe-CzzMAgkPdsGK1wsKLtoF33HXGK98A&usqp=CAU"
+                    src={
+                      member2.image ||
+                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWKPfcYrCzZYwxa23OMrxtPlGxvtc_lRyf6Q&usqp=CAU"
+                    }
                     alt=""
                     className="userShowImg"
                   />
                   <div className="userShowTopTitle">
-                    <span className="userShowUsername">
-                      Prof.Nuwan Kodagoda
-                    </span>
-                    <span className="userShowUserTitle">nuwank@sliit.lk</span>
+                    <span className="userShowUsername">{member2}</span>
+                    <span className="userShowUserTitle">{member2.email}</span>
                   </div>
                 </div>
               </div>
@@ -94,6 +185,8 @@ const EditPanel = () => {
                       type="text"
                       placeholder=""
                       className="userUpdateInput"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
                     />
                   </div>
                   <div className="userUpdateItem">
@@ -102,58 +195,58 @@ const EditPanel = () => {
                       type="text"
                       placeholder=""
                       className="userUpdateInput"
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
                     />
                   </div>
                   <div className="userUpdateItem">
                     <label>Panel Head</label>
-                    <select className="userUpdateInput">
+                    <select className="userUpdateInput" value={panelHead}>
                       <option>Select Panel head</option>
-                      <option>Nuwan Kodagoda</option>
-                      <option>Hasith Deminda</option>
-                      <option>Juliet Becker</option>
-                      <option>John Doe</option>
-                      <option>Anna Becker</option>
+                      {staff.map((staff) => (
+                        <option>{staff.name}</option>
+                      ))}
                     </select>
                   </div>
                 </div>
                 <div className="userUpdateRight">
                   <div className="userUpdateItem">
                     <label>Panel Member 1</label>
-                    <select className="userUpdateInput">
+                    <select className="userUpdateInput" value={member1}>
                       <option>Select Panel Member</option>
-                      <option>Nuwan Kodagoda</option>
-                      <option>Hasith Deminda</option>
-                      <option>Juliet Becker</option>
-                      <option>John Doe</option>
-                      <option>Anna Becker</option>
+                      {staff.map((staff) => (
+                        <option>{staff.name}</option>
+                      ))}
                     </select>
                   </div>
                   <div className="userUpdateItem">
                     <label>Panel Member 2</label>
-                    <select className="userUpdateInput">
+                    <select className="userUpdateInput" value={member2}>
                       <option>Select Panel Member</option>
-                      <option>Nuwan Kodagoda</option>
-                      <option>Hasith Deminda</option>
-                      <option>Juliet Becker</option>
-                      <option>John Doe</option>
-                      <option>Anna Becker</option>
+                      {staff.map((staff) => (
+                        <option>{staff.name}</option>
+                      ))}
                     </select>
                   </div>
                   <div className="userUpdateItem">
                     <label>Additional Panel Member</label>
-                    <select className="userUpdateInput">
+                    <select className="userUpdateInput" value={extraMember}>
                       <option>Select Additional Panel Member</option>
-                      <option>Nuwan Kodagoda</option>
-                      <option>Hasith Deminda</option>
-                      <option>Juliet Becker</option>
-                      <option>John Doe</option>
-                      <option>Anna Becker</option>
+                      {staff.map((staff) => (
+                        <option>{staff.name}</option>
+                      ))}
                     </select>
                   </div>
                 </div>
               </form>
               <br />
-              <Button className="userUpdateButton">Update</Button>
+              <Button
+                type="submit"
+                className="userUpdateButton"
+                onClick={submitHandler}
+              >
+                Update
+              </Button>
             </div>
           </div>
         </div>
