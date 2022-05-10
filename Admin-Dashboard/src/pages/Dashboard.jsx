@@ -60,11 +60,11 @@ const Dashboard = () => {
       </DashboardWrapperMain>
       <DashboardWrapperRight>
         <div className="title mb">Notifications</div>
-        <div className="mb">
+        <div className="mb" style={{ marginTop: "-20px" }}>
           <OverallList />
         </div>
         <div className="title mb">Research Paper Submissions</div>
-        <div className="mb">
+        <div className="mb" style={{ marginTop: "-25px" }}>
           <RevenueList />
         </div>
       </DashboardWrapperRight>

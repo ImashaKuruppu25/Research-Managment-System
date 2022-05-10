@@ -326,8 +326,13 @@ const UserRoles = () => {
             <AccordionDetails>
               <Typography>
                 {panel.description}
-                <div style={{ display: "flex" }}>
-                  <div className="members" style={{ margin: "20px 0px" }}>
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  <div
+                    className="members"
+                    style={{ margin: "20px 0px", maxWidth: "300px" }}
+                  >
                     <span
                       className="userShowTitle"
                       style={{
@@ -429,7 +434,7 @@ const UserRoles = () => {
                       overflowY: "auto",
                       paddingRight: "30px",
                       maxWidth: "700px",
-                      marginLeft: "150px",
+                      // marginLeft: "150px",
                     }}
                   >
                     <div>

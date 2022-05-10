@@ -2,6 +2,9 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
+import Alert from "@mui/material/Alert";
+import Stack from "@mui/material/Stack";
+import { ToastContainer, toast } from "react-toastify";
 
 const EditPanel = () => {
   const [name, setName] = useState("");
@@ -76,6 +79,7 @@ const EditPanel = () => {
 
   const submitHandler = (event) => {
     event.preventDefault();
+
     const data = {
       name,
       description,
@@ -88,12 +92,12 @@ const EditPanel = () => {
     axios
       .patch(`http://localhost:5000/panel/updatePanel/${id}`, data)
       .then((res) => {
-        alert("Panel Updated Successfully!");
         navigate("/userRoles");
+        alert("Panel Updated Successfully!");
         console.log(data);
       })
       .catch((err) => {
-        alert("Database Error");
+        alert(err.message);
       });
   };
   return (
@@ -201,7 +205,11 @@ const EditPanel = () => {
                   </div>
                   <div className="userUpdateItem">
                     <label>Panel Head</label>
-                    <select className="userUpdateInput" value={panelHead}>
+                    <select
+                      className="userUpdateInput"
+                      value={panelHead}
+                      onChange={(e) => setPanelHead(e.target.value)}
+                    >
                       <option>Select Panel head</option>
                       {staff.map((staff) => (
                         <option>{staff.name}</option>
@@ -212,7 +220,11 @@ const EditPanel = () => {
                 <div className="userUpdateRight">
                   <div className="userUpdateItem">
                     <label>Panel Member 1</label>
-                    <select className="userUpdateInput" value={member1}>
+                    <select
+                      className="userUpdateInput"
+                      value={member1}
+                      onChange={(e) => setMember1(e.target.value)}
+                    >
                       <option>Select Panel Member</option>
                       {staff.map((staff) => (
                         <option>{staff.name}</option>
@@ -221,7 +233,11 @@ const EditPanel = () => {
                   </div>
                   <div className="userUpdateItem">
                     <label>Panel Member 2</label>
-                    <select className="userUpdateInput" value={member2}>
+                    <select
+                      className="userUpdateInput"
+                      value={member2}
+                      onChange={(e) => setMember2(e.target.value)}
+                    >
                       <option>Select Panel Member</option>
                       {staff.map((staff) => (
                         <option>{staff.name}</option>
@@ -230,7 +246,11 @@ const EditPanel = () => {
                   </div>
                   <div className="userUpdateItem">
                     <label>Additional Panel Member</label>
-                    <select className="userUpdateInput" value={extraMember}>
+                    <select
+                      className="userUpdateInput"
+                      value={extraMember}
+                      onChange={(e) => setExtraMember(e.target.value)}
+                    >
                       <option>Select Additional Panel Member</option>
                       {staff.map((staff) => (
                         <option>{staff.name}</option>
