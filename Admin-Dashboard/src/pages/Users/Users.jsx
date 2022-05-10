@@ -94,17 +94,6 @@ const Users = () => {
     },
   ];
 
-  const rows = [
-    {
-      id: 1,
-      avatar:
-        "https://res.cloudinary.com/desnqqj6a/image/upload/v1650175831/fitness_dmymhn.png",
-      userName: "Hasith Deminda",
-      email: "Hasith@gmail.com",
-      role: "STUDENT",
-    },
-  ];
-
   return (
     <div style={{ overflowY: "hidden" }}>
       <div style={{ height: 550, width: "100%" }}>

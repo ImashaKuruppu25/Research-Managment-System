@@ -2,9 +2,6 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
-import Alert from "@mui/material/Alert";
-import Stack from "@mui/material/Stack";
-import { ToastContainer, toast } from "react-toastify";
 
 const EditPanel = () => {
   const [name, setName] = useState("");
