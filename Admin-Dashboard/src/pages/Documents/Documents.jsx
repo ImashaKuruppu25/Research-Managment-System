@@ -1,17 +1,57 @@
 import { Button, TextField } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FileUpload from "react-material-file-upload";
 import "./Documents.scss";
 import { FcDocument } from "react-icons/fc";
-import { data } from "../../dummy";
+import axios from "axios";
 
 const Documents = () => {
-  const [files, setFiles] = useState([]);
+  const [templates, setTemplates] = useState([
+    {
+      documentName: "",
+      document: "",
+    },
+  ]);
+
+  const [document, setDocument] = useState([]);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log(files);
+    console.log(document);
   };
+
+  useEffect(() => {
+    function getTemplatesAndDocs() {
+      axios
+
+        .get("http://localhost:5000/doc/getAllDocuments")
+
+        .then((res) => {
+          console.log(res.data);
+
+          setTemplates(res.data);
+        })
+
+        .catch((err) => {
+          alert(err.message);
+        });
+    }
+
+    getTemplatesAndDocs();
+  }, []);
+
+  function deleteHandler(_id) {
+    axios
+      .delete(`http://localhost:5000/doc/deleteDocument/${_id}`)
+
+      .then((res) => {
+        alert("Document Deleted!");
+
+        window.location.reload();
+      })
+
+      .catch();
+  }
 
   return (
     <div className="file-upload-container">
@@ -22,8 +62,8 @@ const Documents = () => {
         <br />
         <br />
         <FileUpload
-          value={files}
-          onChange={setFiles}
+          value={document}
+          onChange={setDocument}
           style={{ border: "1px solid", height: "50px", width: "50px" }}
         />
         <br />
@@ -32,10 +72,11 @@ const Documents = () => {
         </Button>
       </div>
 
+      {/* --------------- Display Uploaded documents ------------------ */}
       <div className="document-view-container">
         <h1 style={{ fontWeight: "200" }}>Uploaded Documents</h1>
         <div className="uploaded-item">
-          {data.map((item) => (
+          {templates.map((item) => (
             <div className="uploaded-item-container">
               <div
                 style={{
@@ -47,7 +88,7 @@ const Documents = () => {
                 <FcDocument
                   className="uploaded-item-icon"
                   style={{ cursor: "pointer" }}
-                  onClick={() => window.open(item.file)}
+                  onClick={() => window.open(item.document)}
                 />
               </div>
               <div className="uploaded-item-info">
@@ -60,7 +101,7 @@ const Documents = () => {
                     fontSize: "20px",
                   }}
                 >
-                  {item.name.slice(0, 20).concat("...")}
+                  {item.documentName.slice(0, 20).concat("...")}
                 </h1>
 
                 <div
@@ -75,6 +116,7 @@ const Documents = () => {
                     variant="contained"
                     color="error"
                     style={{ marginTop: "25px", height: "30px" }}
+                    onClick={() => deleteHandler(item._id)}
                   >
                     Remove
                   </Button>
