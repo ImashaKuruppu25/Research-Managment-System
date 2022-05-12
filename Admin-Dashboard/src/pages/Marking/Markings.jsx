@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { MdOutlineCloudUpload } from "react-icons/md";
 import { ImCancelCircle } from "react-icons/im";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import "./Markings.scss";
 
@@ -13,8 +13,6 @@ const Markings = () => {
       doc: "",
     },
   ]);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     function getMarkingSchemes() {
@@ -39,11 +37,10 @@ const Markings = () => {
   function deleteHandler(_id) {
     axios
       .delete(`http://localhost:5000/marking/deleteMarking/${_id}`)
-
       .then((res) => {
         alert("Marking Scheme Deleted!");
 
-        navigate("/markings");
+        window.location.reload();
       })
 
       .catch();
@@ -65,7 +62,18 @@ const Markings = () => {
         {marking.map((marking) => (
           <div className="marking-card">
             <div className="card-header-delete">
-              <ImCancelCircle onClick={() => deleteHandler(marking._id)} />
+              <ImCancelCircle
+                // onClick={() => deleteHandler(marking._id)}
+                onClick={() => {
+                  if (
+                    window.confirm(
+                      "Are you sure you want to delete this Marking Scheme?"
+                    )
+                  ) {
+                    deleteHandler(marking._id);
+                  }
+                }}
+              />
             </div>
             <div className="marking-card-title">{marking.topic}</div>
             <div className="marking-card-description">

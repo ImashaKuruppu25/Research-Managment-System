@@ -10,6 +10,12 @@ const addDocument = asyncHandler(async (req, res) => {
     throw new Error("Please Fill all the fields!");
   }
 
+  const documentExists = await Documents.findOne({ documentName });
+
+  if (documentExists) {
+    res.status(400).json({ message: "Document Already Exists!" });
+  }
+
   const tempDoc = await Documents.create({
     documentName,
     document,

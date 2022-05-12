@@ -4,6 +4,8 @@ import FileUpload from "react-material-file-upload";
 import "./Documents.scss";
 import { FcDocument } from "react-icons/fc";
 import axios from "axios";
+import Notifications from "../../components/Notifications";
+import ConfirmDialog from "../../components/ConfirmDialog";
 
 const Documents = () => {
   const [templates, setTemplates] = useState([
@@ -14,6 +16,20 @@ const Documents = () => {
   ]);
 
   const [document, setDocument] = useState([]);
+
+  //Alert Notification
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
+
+  //Confirm Dialog
+  const [confirmDialog, setConfirmDialog] = useState({
+    isOpen: false,
+    title: "",
+    subTitle: "",
+  });
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -41,16 +57,30 @@ const Documents = () => {
   }, []);
 
   function deleteHandler(_id) {
+    setConfirmDialog({
+      ...ConfirmDialog,
+      isOpen: false,
+    });
     axios
       .delete(`http://localhost:5000/doc/deleteDocument/${_id}`)
 
       .then((res) => {
-        alert("Document Deleted!");
+        setNotify({
+          isOpen: true,
+          message: "Document Deleted!",
+          type: "success",
+        });
 
-        window.location.reload();
+        setTimeout(window.location.reload.bind(window.location), 2000);
       })
 
-      .catch();
+      .catch((err) => {
+        setNotify({
+          isOpen: true,
+          message: "Error Deleting Document",
+          type: "error",
+        });
+      });
   }
 
   return (
@@ -116,7 +146,24 @@ const Documents = () => {
                     variant="contained"
                     color="error"
                     style={{ marginTop: "25px", height: "30px" }}
-                    onClick={() => deleteHandler(item._id)}
+                    onClick={() => {
+                      setConfirmDialog({
+                        isOpen: true,
+                        title: "Delete Document",
+                        subTitle:
+                          "Are you sure you want to delete this document?",
+                        onConfirm: () => {
+                          deleteHandler(item._id);
+                        },
+                      });
+                      // if (
+                      //   window.confirm(
+                      //     "Are you sure you want to delete this Document ?"
+                      //   )
+                      // ) {
+                      //   deleteHandler(item._id);
+                      // }
+                    }}
                   >
                     Remove
                   </Button>
@@ -124,6 +171,11 @@ const Documents = () => {
               </div>
             </div>
           ))}
+          <Notifications notify={notify} setNotify={setNotify} />
+          <ConfirmDialog
+            confirmDialog={confirmDialog}
+            setConfirmDialog={setConfirmDialog}
+          />
         </div>
       </div>
     </div>
