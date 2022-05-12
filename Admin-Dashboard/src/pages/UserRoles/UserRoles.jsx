@@ -9,6 +9,8 @@ import { MdDelete, MdPersonAdd } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Notifications from "../../components/Notifications";
+import ConfirmDialog from "../../components/ConfirmDialog";
 
 const UserRoles = () => {
   const [admin, setAdmin] = useState([
@@ -49,6 +51,20 @@ const UserRoles = () => {
       extraMember: "",
     },
   ]);
+
+  //Alert Notification
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
+
+  //Confirm Dialog
+  const [confirmDialog, setConfirmDialog] = useState({
+    isOpen: false,
+    title: "",
+    subTitle: "",
+  });
 
   //useEffect to get userdata from database
   useEffect(() => {
@@ -126,16 +142,30 @@ const UserRoles = () => {
 
   //Delete a panel
   function deleteHandler(_id) {
+    setConfirmDialog({
+      ...ConfirmDialog,
+      isOpen: false,
+    });
     axios
       .delete(`http://localhost:5000/panel/deletePanel/${_id}`)
 
       .then((res) => {
-        alert("Panel Deleted!");
+        setNotify({
+          isOpen: true,
+          message: "User Deleted!",
+          type: "success",
+        });
 
-        window.location.reload();
+        setTimeout(window.location.reload.bind(window.location), 2000);
       })
 
-      .catch();
+      .catch((err) => {
+        setNotify({
+          isOpen: true,
+          message: "Error Deleting User",
+          type: "error",
+        });
+      });
   }
 
   return (
@@ -317,7 +347,17 @@ const UserRoles = () => {
 
                     <MdDelete
                       style={{ fontSize: "24px", color: "red" }}
-                      onClick={() => deleteHandler(panel._id)}
+                      onClick={() => {
+                        setConfirmDialog({
+                          isOpen: true,
+                          title: "Delete Panel!",
+                          subTitle:
+                            "Are you sure you want to delete this panel ?",
+                          onConfirm: () => {
+                            deleteHandler(panel._id);
+                          },
+                        });
+                      }}
                     />
                   </div>
                 </div>
@@ -628,6 +668,11 @@ const UserRoles = () => {
           </Accordion>
         ))}
       </div>
+      <Notifications notify={notify} setNotify={setNotify} />
+      <ConfirmDialog
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
     </div>
   );
 };

@@ -156,13 +156,6 @@ const Documents = () => {
                           deleteHandler(item._id);
                         },
                       });
-                      // if (
-                      //   window.confirm(
-                      //     "Are you sure you want to delete this Document ?"
-                      //   )
-                      // ) {
-                      //   deleteHandler(item._id);
-                      // }
                     }}
                   >
                     Remove

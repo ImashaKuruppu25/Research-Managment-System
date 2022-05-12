@@ -4,6 +4,8 @@ import { ImCancelCircle } from "react-icons/im";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "./Markings.scss";
+import Notifications from "../../components/Notifications";
+import ConfirmDialog from "../../components/ConfirmDialog";
 
 const Markings = () => {
   const [marking, setMarking] = useState([
@@ -13,6 +15,20 @@ const Markings = () => {
       doc: "",
     },
   ]);
+
+  //Alert Notification
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
+
+  //Confirm Dialog
+  const [confirmDialog, setConfirmDialog] = useState({
+    isOpen: false,
+    title: "",
+    subTitle: "",
+  });
 
   useEffect(() => {
     function getMarkingSchemes() {
@@ -35,15 +51,29 @@ const Markings = () => {
   }, []);
 
   function deleteHandler(_id) {
+    setConfirmDialog({
+      ...ConfirmDialog,
+      isOpen: false,
+    });
     axios
       .delete(`http://localhost:5000/marking/deleteMarking/${_id}`)
       .then((res) => {
-        alert("Marking Scheme Deleted!");
+        setNotify({
+          isOpen: true,
+          message: "Marking Scheme Deleted!",
+          type: "success",
+        });
 
-        window.location.reload();
+        setTimeout(window.location.reload.bind(window.location), 2000);
       })
 
-      .catch();
+      .catch((err) => {
+        setNotify({
+          isOpen: true,
+          message: "Error Deleting Marking Scheme",
+          type: "error",
+        });
+      });
   }
 
   return (
@@ -63,15 +93,15 @@ const Markings = () => {
           <div className="marking-card">
             <div className="card-header-delete">
               <ImCancelCircle
-                // onClick={() => deleteHandler(marking._id)}
                 onClick={() => {
-                  if (
-                    window.confirm(
-                      "Are you sure you want to delete this Marking Scheme?"
-                    )
-                  ) {
-                    deleteHandler(marking._id);
-                  }
+                  setConfirmDialog({
+                    isOpen: true,
+                    title: "Delete Marking Scheme!",
+                    subTitle: "Are you sure you want to delete this Marking ?",
+                    onConfirm: () => {
+                      deleteHandler(marking._id);
+                    },
+                  });
                 }}
               />
             </div>
@@ -90,6 +120,11 @@ const Markings = () => {
           </div>
         ))}
       </div>
+      <Notifications notify={notify} setNotify={setNotify} />
+      <ConfirmDialog
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
     </>
   );
 };
