@@ -10,6 +10,7 @@ import {
 import { HiUserGroup } from "react-icons/hi";
 import { useNavigate, useParams } from "react-router-dom";
 import "./UpdateUser.scss";
+import Notifications from "../../components/Notifications";
 
 const UpdateUser = () => {
   const [name, setName] = useState("");
@@ -17,6 +18,13 @@ const UpdateUser = () => {
   const [phone, setPhone] = useState("");
   const [role, setRole] = useState("");
   const [image, setImage] = useState("");
+
+  //Alert Notification
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
 
   const { id } = useParams();
   let navigate = useNavigate();
@@ -61,12 +69,19 @@ const UpdateUser = () => {
     axios
       .patch(`http://localhost:5000/admin/adminUpdateUser/${id}`, data)
       .then((res) => {
-        alert("User Updated Successfully!");
-        navigate("/users");
-        console.log(data);
+        setNotify({
+          isOpen: true,
+          message: "User Updated Successfully!",
+          type: "success",
+        });
+        setTimeout(() => navigate("/users"), 2000);
       })
       .catch((err) => {
-        alert("Database Error");
+        setNotify({
+          isOpen: true,
+          message: "Error Updating User",
+          type: "error",
+        });
       });
   };
 
@@ -205,6 +220,7 @@ const UpdateUser = () => {
           </div>
         </div>
       </div>
+      <Notifications notify={notify} setNotify={setNotify} />
     </div>
   );
 };

@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
+import Notifications from "../../components/Notifications";
 
 const EditPanel = () => {
   const [name, setName] = useState("");
@@ -10,6 +11,13 @@ const EditPanel = () => {
   const [member1, setMember1] = useState("");
   const [member2, setMember2] = useState("");
   const [extraMember, setExtraMember] = useState("");
+
+  //Alert Notification
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
 
   let navigate = useNavigate();
 
@@ -89,12 +97,20 @@ const EditPanel = () => {
     axios
       .patch(`http://localhost:5000/panel/updatePanel/${id}`, data)
       .then((res) => {
-        navigate("/userRoles");
-        alert("Panel Updated Successfully!");
+        setNotify({
+          isOpen: true,
+          message: "Panel Updated Successfully!",
+          type: "success",
+        });
+        setTimeout(() => navigate("/userRoles"), 2000);
         console.log(data);
       })
       .catch((err) => {
-        alert(err.message);
+        setNotify({
+          isOpen: true,
+          message: "Error Updating Panel",
+          type: "error",
+        });
       });
   };
   return (
@@ -268,6 +284,7 @@ const EditPanel = () => {
           </div>
         </div>
       </div>
+      <Notifications notify={notify} setNotify={setNotify} />
     </div>
   );
 };

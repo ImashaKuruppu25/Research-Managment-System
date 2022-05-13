@@ -1,4 +1,4 @@
-import { Button, TextField } from "@mui/material";
+import { Button, Input, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import FileUpload from "react-material-file-upload";
 import "./Documents.scss";
@@ -15,7 +15,11 @@ const Documents = () => {
     },
   ]);
 
-  const [document, setDocument] = useState([]);
+  // const [documentName, setDocumentName] = useState("");
+  // const [document, setDocument] = useState("");
+
+  const [document, setDocument] = useState(null);
+  const [documentName, setDocumentName] = useState("");
 
   //Alert Notification
   const [notify, setNotify] = useState({
@@ -31,11 +35,7 @@ const Documents = () => {
     subTitle: "",
   });
 
-  const submitHandler = (e) => {
-    e.preventDefault();
-    console.log(document);
-  };
-
+  //Fetch all templates
   useEffect(() => {
     function getTemplatesAndDocs() {
       axios
@@ -56,6 +56,7 @@ const Documents = () => {
     getTemplatesAndDocs();
   }, []);
 
+  //Delete Document
   function deleteHandler(_id) {
     setConfirmDialog({
       ...ConfirmDialog,
@@ -83,21 +84,64 @@ const Documents = () => {
       });
   }
 
+  //Add Document
+  function addDocument(e) {
+    e.preventDefault();
+    const newDocument = {
+      documentName,
+      document,
+    };
+    console.log(newDocument);
+    axios
+      .post("http://localhost:5000/doc/addDocument", newDocument)
+      .then((res) => {
+        setNotify({
+          isOpen: true,
+          message: "Document Uploaded Successfully!",
+          type: "success",
+        });
+        setTimeout(() => window.location.reload.bind(window.location), 2000);
+      })
+      .catch((res) => {
+        setNotify({
+          isOpen: true,
+          message: "Error adding Document",
+          type: "error",
+        });
+      });
+  }
+
   return (
     <div className="file-upload-container">
       <div className="document-upload-container">
         <h1 style={{ fontWeight: "200" }}>Upload Templates / Documents</h1>
         <br />
-        <TextField fullWidth label="Document Name" id="fullWidth" />
-        <br />
-        <br />
-        <FileUpload
-          value={document}
-          onChange={setDocument}
-          style={{ border: "1px solid", height: "50px", width: "50px" }}
+        <TextField
+          fullWidth
+          label="Document Name"
+          id="fullWidth"
+          required
+          onChange={(e) => {
+            setDocumentName(e.target.value);
+          }}
         />
         <br />
-        <Button variant="contained" type="submit" onSubmit={submitHandler}>
+        <br />
+        <TextField
+          fullWidth
+          // label="Document Name"
+          id="fullWidth"
+          required
+          autoFocus={true}
+          type="file"
+          onChange={(e) => {
+            setDocument(e.target.value);
+          }}
+        />
+        <br />
+        <br />
+
+        <Button variant="contained" type="submit" onClick={addDocument}>
           Submit Document
         </Button>
       </div>
