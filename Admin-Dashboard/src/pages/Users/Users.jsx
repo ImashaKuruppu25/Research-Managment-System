@@ -128,7 +128,7 @@ const Users = () => {
                   title: "Delete User!",
                   subTitle: "Are you sure you want to delete this user?",
                   onConfirm: () => {
-                    deleteHandler(users._id);
+                    deleteHandler(params.row.id);
                   },
                 });
               }}

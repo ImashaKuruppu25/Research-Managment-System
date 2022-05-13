@@ -5,13 +5,18 @@ import { Button } from "react-bootstrap";
 const CreatePanel = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [panelHead, setPanelHead] = useState("");
+  const [panelHead, setPanelHead] = useState({
+    id: "",
+    name: "",
+    email: "",
+  });
   const [member1, setMember1] = useState("");
   const [member2, setMember2] = useState("");
   const [extraMember, setExtraMember] = useState("");
 
   const [staff, setStaff] = useState([
     {
+      _id: "",
       name: "",
       email: "",
       role: "",
@@ -19,6 +24,8 @@ const CreatePanel = () => {
       phone: "",
     },
   ]);
+
+  const [panelHeadClicked, setPanelHeadClicked] = useState("");
 
   useEffect(() => {
     function getStaffList() {
@@ -63,6 +70,17 @@ const CreatePanel = () => {
       });
   };
 
+  const panelHeadClickHandler = (id) => {
+    const selectedStaff = staff.find((staffMember) => staffMember._id === id);
+    setPanelHead({
+      id: selectedStaff._id,
+      name: selectedStaff.name,
+      email: selectedStaff.email,
+      image: selectedStaff.image,
+    });
+  };
+
+  console.log(panelHead);
   return (
     <div>
       {" "}
@@ -98,7 +116,7 @@ const CreatePanel = () => {
                     className="userShowImg"
                   />
                   <div className="userShowTopTitle">
-                    <span className="userShowUsername">{panelHead}</span>
+                    <span className="userShowUsername">{panelHead.name}</span>
                     <span className="userShowUserTitle">{panelHead.email}</span>
                   </div>
                 </div>
@@ -169,11 +187,11 @@ const CreatePanel = () => {
                     <label>Panel Head</label>
                     <select
                       className="userUpdateInput"
-                      onChange={(e) => setPanelHead(e.target.value)}
+                      onChange={(e) => panelHeadClickHandler(e.target.value)}
                     >
                       <option> - Select Panel Head - </option>
                       {staff.map((staff) => (
-                        <option>{staff.name}</option>
+                        <option value={staff._id}>{staff.name}</option>
                       ))}
                     </select>
                   </div>

@@ -29,7 +29,7 @@ const UploadMarkingScheme = () => {
   function sendData(e) {
     e.preventDefault();
 
-    const fileName = new Date().getTime() + doc;
+    const fileName = new Date().getTime().toString() + doc.name;
     const storage = getStorage(app);
     const storageRef = ref(storage, fileName);
 
@@ -90,6 +90,7 @@ const UploadMarkingScheme = () => {
       }
     );
   }
+  console.log(doc ? doc.name : "");
 
   return (
     <div className="container-uploader">
@@ -142,7 +143,7 @@ const UploadMarkingScheme = () => {
                 style={{ padding: "10px 20px" }}
                 autoFocus={true}
                 onChange={(e) => {
-                  setDoc(e.target.value);
+                  setDoc(e.target.files[0]);
                 }}
               />
             </div>

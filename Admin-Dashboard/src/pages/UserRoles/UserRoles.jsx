@@ -399,12 +399,14 @@ const UserRoles = () => {
                         }
                         alt=""
                         style={{
-                          maxWidth: "50px",
-                          maxHeight: "50px",
+                          width: "60px",
+                          height: "60px",
+                          maxWidth: "60px",
+                          maxHeight: "60px",
                           borderRadius: "50%",
                         }}
                       />
-                      {panel.panelHead}
+                      {panel.panelHead.name}
                     </div>
 
                     <span
@@ -433,12 +435,14 @@ const UserRoles = () => {
                         }
                         alt=""
                         style={{
-                          maxWidth: "50px",
-                          maxHeight: "50px",
+                          width: "60px",
+                          height: "60px",
+                          maxWidth: "60px",
+                          maxHeight: "60px",
                           borderRadius: "50%",
                         }}
                       />
-                      {panel.member1}
+                      {panel.member1.name}
                     </div>
 
                     <div
@@ -457,12 +461,14 @@ const UserRoles = () => {
                         }
                         alt=""
                         style={{
-                          maxWidth: "50px",
-                          maxHeight: "50px",
+                          width: "60px",
+                          height: "60px",
+                          maxWidth: "60px",
+                          maxHeight: "60px",
                           borderRadius: "50%",
                         }}
                       />
-                      {panel.member2}
+                      {panel.member2.name}
                     </div>
                   </div>
 
