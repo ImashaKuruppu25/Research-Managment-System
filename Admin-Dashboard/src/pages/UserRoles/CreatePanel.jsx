@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import Notifications from "../../components/Notifications";
 
 const CreatePanel = () => {
   const [name, setName] = useState("");
@@ -25,7 +27,14 @@ const CreatePanel = () => {
     },
   ]);
 
-  const [panelHeadClicked, setPanelHeadClicked] = useState("");
+  //Alert Notification
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     function getStaffList() {
@@ -63,15 +72,26 @@ const CreatePanel = () => {
     axios
       .post("http://localhost:5000/panel/addPanel", newPanel)
       .then(() => {
-        alert("Panel Created Successfully!");
+        setNotify({
+          isOpen: true,
+          message: "Panel Added Successfully !",
+          type: "success",
+        });
+        setTimeout(() => navigate("/userRoles"), 2000);
       })
       .catch((res) => {
-        alert("Panel Creation Adding Failed!");
+        setNotify({
+          isOpen: true,
+          message: "Error adding Panel ",
+          type: "error",
+        });
       });
   };
 
   const panelHeadClickHandler = (id) => {
-    const selectedStaff = staff.find((staffMember) => staffMember._id === id);
+    const selectedStaff = staff.find(
+      (staffMemberPanelHead) => staffMemberPanelHead._id === id
+    );
     setPanelHead({
       id: selectedStaff._id,
       name: selectedStaff.name,
@@ -80,7 +100,38 @@ const CreatePanel = () => {
     });
   };
 
-  console.log(panelHead);
+  const member1ClickHandler = (id) => {
+    const selectedStaff = staff.find((staffMember1) => staffMember1._id === id);
+    setMember1({
+      id: selectedStaff._id,
+      name: selectedStaff.name,
+      email: selectedStaff.email,
+      // image: selectedStaff.image,
+    });
+  };
+
+  const member2ClickHandler = (id) => {
+    const selectedStaff = staff.find((staffMember2) => staffMember2._id === id);
+    setMember2({
+      id: selectedStaff._id,
+      name: selectedStaff.name,
+      email: selectedStaff.email,
+      // image: selectedStaff.image,
+    });
+  };
+
+  const extraMemberClickHandler = (id) => {
+    const selectedStaff = staff.find(
+      (staffMemberExtra) => staffMemberExtra._id === id
+    );
+    setExtraMember({
+      id: selectedStaff._id,
+      name: selectedStaff.name,
+      email: selectedStaff.email,
+      // image: selectedStaff.image,
+    });
+  };
+
   return (
     <div>
       {" "}
@@ -190,7 +241,7 @@ const CreatePanel = () => {
                       onChange={(e) => panelHeadClickHandler(e.target.value)}
                     >
                       <option> - Select Panel Head - </option>
-                      {staff.map((staff) => (
+                      {staff.map((staff, id) => (
                         <option value={staff._id}>{staff.name}</option>
                       ))}
                     </select>
@@ -201,12 +252,12 @@ const CreatePanel = () => {
                     <label>Panel Member 1</label>
                     <select
                       className="userUpdateInput"
-                      onChange={(e) => setMember1(e.target.value)}
+                      onChange={(e) => member1ClickHandler(e.target.value)}
                     >
                       <option> - Select Panel Member - </option>
 
                       {staff.map((staff, id) => (
-                        <option key={id}>{staff.name}</option>
+                        <option value={staff._id}>{staff.name}</option>
                       ))}
                     </select>
                   </div>
@@ -214,11 +265,11 @@ const CreatePanel = () => {
                     <label>Panel Member 2</label>
                     <select
                       className="userUpdateInput"
-                      onChange={(e) => setMember2(e.target.value)}
+                      onChange={(e) => member2ClickHandler(e.target.value)}
                     >
                       <option> - Select Panel Member - </option>
-                      {staff.map((staff) => (
-                        <option>{staff.name}</option>
+                      {staff.map((staff, id) => (
+                        <option value={staff._id}>{staff.name}</option>
                       ))}
                     </select>
                   </div>
@@ -226,11 +277,11 @@ const CreatePanel = () => {
                     <label>Additional Panel Member ( Optional )</label>
                     <select
                       className="userUpdateInput"
-                      onChange={(e) => setExtraMember(e.target.value)}
+                      onChange={(e) => extraMemberClickHandler(e.target.value)}
                     >
                       <option> - Select Additional Panel Member - </option>
-                      {staff.map((staff) => (
-                        <option>{staff.name}</option>
+                      {staff.map((staff, id) => (
+                        <option value={staff._id}>{staff.name}</option>
                       ))}
                     </select>
                   </div>
@@ -248,6 +299,7 @@ const CreatePanel = () => {
           </div>
         </div>
       </div>
+      <Notifications notify={notify} setNotify={setNotify} />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { MdCloudUpload } from "react-icons/md";
 import "./UploadMarkingScheme.scss";
 import axios from "axios";
@@ -74,7 +74,7 @@ const UploadMarkingScheme = () => {
             .then(() => {
               setNotify({
                 isOpen: true,
-                message: "Marking Scheme Uploaded Successfully!",
+                message: "Marking Scheme Uploaded Successfully !",
                 type: "success",
               });
               setTimeout(() => navigate("/markings"), 2000);
@@ -90,7 +90,7 @@ const UploadMarkingScheme = () => {
       }
     );
   }
-  console.log(doc ? doc.name : "");
+  // console.log(doc ? doc.name : "");
 
   return (
     <div className="container-uploader">

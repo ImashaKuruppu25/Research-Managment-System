@@ -6,6 +6,13 @@ import { FcDocument } from "react-icons/fc";
 import axios from "axios";
 import Notifications from "../../components/Notifications";
 import ConfirmDialog from "../../components/ConfirmDialog";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
+import app from "../../firebase";
 
 const Documents = () => {
   const [templates, setTemplates] = useState([
@@ -18,7 +25,7 @@ const Documents = () => {
   // const [documentName, setDocumentName] = useState("");
   // const [document, setDocument] = useState("");
 
-  const [document, setDocument] = useState(null);
+  const [document, setDocument] = useState();
   const [documentName, setDocumentName] = useState("");
 
   //Alert Notification
@@ -87,28 +94,62 @@ const Documents = () => {
   //Add Document
   function addDocument(e) {
     e.preventDefault();
-    const newDocument = {
-      documentName,
-      document,
-    };
-    console.log(newDocument);
-    axios
-      .post("http://localhost:5000/doc/addDocument", newDocument)
-      .then((res) => {
-        setNotify({
-          isOpen: true,
-          message: "Document Uploaded Successfully!",
-          type: "success",
+
+    const fileName = new Date().getTime().toString() + document.name;
+    const storage = getStorage(app);
+    const storageRef = ref(storage, fileName);
+
+    const uploadTask = uploadBytesResumable(storageRef, document);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + " % done");
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+        }
+      },
+      (error) => {
+        // Handle unsuccessful uploads
+      },
+      () => {
+        // Handle successful uploads on complete
+        // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+        getDownloadURL(uploadTask.snapshot.ref).then((document) => {
+          console.log("File available at :", document);
+
+          const newDocument = {
+            documentName,
+            document,
+          };
+          console.log(newDocument);
+          axios
+            .post("http://localhost:5000/doc/addDocument", newDocument)
+            .then((res) => {
+              setNotify({
+                isOpen: true,
+                message: "Document Uploaded Successfully!",
+                type: "success",
+              });
+              setTimeout(window.location.reload.bind(window.location), 2000);
+            })
+            .catch((res) => {
+              setNotify({
+                isOpen: true,
+                message: "Error adding Document",
+                type: "error",
+              });
+            });
         });
-        setTimeout(() => window.location.reload.bind(window.location), 2000);
-      })
-      .catch((res) => {
-        setNotify({
-          isOpen: true,
-          message: "Error adding Document",
-          type: "error",
-        });
-      });
+      }
+    );
   }
 
   return (
@@ -135,9 +176,18 @@ const Documents = () => {
           autoFocus={true}
           type="file"
           onChange={(e) => {
-            setDocument(e.target.value);
+            setDocument(e.target.files[0]);
           }}
         />
+        {/* <FileUpload
+          value={document}
+          required
+          // onChange={(e) => {
+          //   setDocument(e.target.files[0]);
+          // }}
+          onChange={setDocument}
+          style={{ border: "1px solid", height: "50px", width: "50px" }}
+        /> */}
         <br />
         <br />
 
