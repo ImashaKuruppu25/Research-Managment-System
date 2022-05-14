@@ -1,0 +1,27 @@
+.userlist-container {
+  display: flex;
+  align-items: center;
+
+  .userlist-img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+  }
+  .userlist-edit-btn {
+    padding: 7px 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #3bb077;
+    color: white;
+    cursor: pointer;
+    margin-right: 20px;
+    margin-left: 10px;
+  }
+  .userlist-delete-btn {
+    color: red;
+    font-size: 28px;
+    cursor: pointer;
+  }
+}
