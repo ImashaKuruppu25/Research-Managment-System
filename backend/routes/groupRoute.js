@@ -1,4 +1,5 @@
 const {
+  addGroup,
   getAllGroups,
   getGroupById,
   updateGroupDetails,
@@ -6,6 +7,8 @@ const {
 } = require("../controllers/adminGroupManageCtrl");
 
 const router = require("express").Router();
+
+router.post("/addGroup", addGroup);
 
 router.get("/getAllGroups", getAllGroups);
 

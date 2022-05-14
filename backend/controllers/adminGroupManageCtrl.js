@@ -1,6 +1,58 @@
 const asyncHandler = require("express-async-handler");
 const Group = require("../models/adminGroupManageModel");
 
+//Register Student Group
+const addGroup = asyncHandler(async (req, res) => {
+  const {
+    groupName,
+    researchTopic,
+    member1Id,
+    member2Id,
+    member3Id,
+    member4Id,
+    extraMemberId,
+    assignedSupervisor,
+    assignedCoSupervisor,
+    assignedPanel,
+  } = req.body;
+
+  if (!groupName || !researchTopic || !member1Id) {
+    res.status(400);
+    throw new Error("Please Fill all the fields!");
+  }
+
+  const group = await Group.create({
+    groupName,
+    researchTopic,
+    member1Id,
+    member2Id,
+    member3Id,
+    member4Id,
+    extraMemberId,
+    assignedSupervisor,
+    assignedCoSupervisor,
+    assignedPanel,
+  });
+
+  if (group) {
+    res.status(201).json({
+      _id: group._id,
+      groupName: group.groupName,
+      researchTopic: group.researchTopic,
+      member1Id: group.member1Id,
+      member2Id: group.member2Id,
+      member3Id: group.member3Id,
+      member4Id: group.member4Id,
+      extraMemberId: group.extraMemberId,
+      assignedSupervisor: group.assignedSupervisor,
+      assignedCoSupervisor: group.assignedCoSupervisor,
+      assignedPanel: group.assignedPanel,
+    });
+  } else {
+    res.status(400);
+    throw new Error("Error Occured!");
+  }
+});
 //Get all groups
 const getAllGroups = asyncHandler(async (req, res) => {
   const group = await Group.find();
@@ -68,6 +120,7 @@ const deleteGroup = asyncHandler(async (req, res) => {
 });
 
 module.exports = {
+  addGroup,
   getAllGroups,
   getGroupById,
   updateGroupDetails,

@@ -1,8 +1,55 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Groups = () => {
+  const [groups, setGroups] = useState([
+    {
+      id: "",
+      groupName: "",
+      researchTopic: "",
+      member1Id: "",
+      member2Id: "",
+      member3Id: "",
+      member4Id: "",
+      extraMemberId: "",
+      assignedSupervisor: "",
+      assignedCoSupervisor: "",
+      assignedPanel: "",
+    },
+  ]);
+
+  useEffect(() => {
+    const prepareGroups = async () => {
+      const pGroups = await axios
+        .get("http://localhost:5000/group/getAllGroups")
+
+        .then((res) => {
+          return res.data;
+        })
+        .catch((err) => {
+          alert(err.message);
+        });
+      // console.log(users);
+      let preparedGroupArr = [];
+
+      for (let i = 0; i < pGroups.length; i++) {
+        let groupObj = {
+          id: pGroups[i]._id,
+          topic: pGroups[i].researchTopic,
+          groupName: pGroups[i].groupName,
+          supervisor: pGroups[i].assignedSupervisor || "Not Assigned *",
+          coSupervisor: pGroups[i].assignedCoSupervisor || "Not Assigned *",
+        };
+        preparedGroupArr.push(groupObj);
+      }
+      setGroups(preparedGroupArr);
+    };
+
+    prepareGroups();
+  }, []);
+
   const columns = [
     {
       field: "groupName",
@@ -12,7 +59,7 @@ const Groups = () => {
         return <div className="userlist-container">{params.row.groupName}</div>;
       },
     },
-    { field: "topic", headerName: "Topic", width: 400 },
+    { field: "topic", headerName: "Research Topic", width: 400 },
     { field: "supervisor", headerName: "Supervisor", width: 200 },
     { field: "coSupervisor", headerName: "Co Supervisor", width: 170 },
 
@@ -90,7 +137,7 @@ const Groups = () => {
       <br />
       <div style={{ height: 550, width: "100%" }}>
         <DataGrid
-          rows={rows}
+          rows={groups}
           columns={columns}
           pageSize={8}
           rowsPerPageOptions={[5]}
