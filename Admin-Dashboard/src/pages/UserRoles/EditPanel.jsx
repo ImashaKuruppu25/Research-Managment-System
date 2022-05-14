@@ -129,12 +129,30 @@ const EditPanel = () => {
             >
               <span className="userShowTitle">Panel Name</span>
               <br />
-              <span className="userShowUserTitle">{name}</span>
+              <span
+                className="userShowUserTitle"
+                style={{
+                  fontWeight: "600",
+                  fontFamily: "monospace",
+                  fontSize: "16px",
+                }}
+              >
+                {name}
+              </span>
               <br />
               <br />
               <span className="userShowTitle">Description</span>
               <br />
-              <span className="userShowUserTitle">{description}</span>
+              <span
+                className="userShowUserTitle"
+                style={{
+                  fontWeight: "600",
+                  fontFamily: "monospace",
+                  fontSize: "16px",
+                }}
+              >
+                {description}
+              </span>
               <div className="userShowBottom">
                 <span className="userShowTitle">Panel Head</span>
                 <div className="userShowTop">
@@ -146,7 +164,14 @@ const EditPanel = () => {
                     alt=""
                     className="userShowImg"
                   />
-                  <div className="userShowTopTitle">
+                  <div
+                    className="userShowTopTitle"
+                    style={{
+                      fontWeight: "600",
+                      fontFamily: "monospace",
+                      fontSize: "16px",
+                    }}
+                  >
                     <span className="userShowUsername">{panelHead}</span>
                     <span className="userShowUserTitle">{panelHead.email}</span>
                   </div>
@@ -164,7 +189,14 @@ const EditPanel = () => {
                     alt=""
                     className="userShowImg"
                   />
-                  <div className="userShowTopTitle">
+                  <div
+                    className="userShowTopTitle"
+                    style={{
+                      fontWeight: "600",
+                      fontFamily: "monospace",
+                      fontSize: "16px",
+                    }}
+                  >
                     <span className="userShowUsername">{member1}</span>
                     <span className="userShowUserTitle">{member1.email}</span>
                   </div>
@@ -179,11 +211,45 @@ const EditPanel = () => {
                     alt=""
                     className="userShowImg"
                   />
-                  <div className="userShowTopTitle">
+                  <div
+                    className="userShowTopTitle"
+                    style={{
+                      fontWeight: "600",
+                      fontFamily: "monospace",
+                      fontSize: "16px",
+                    }}
+                  >
                     <span className="userShowUsername">{member2}</span>
                     <span className="userShowUserTitle">{member2.email}</span>
                   </div>
                 </div>
+                {/* Extra Member */}
+
+                {extraMember ? (
+                  <div className="userShowTop">
+                    <img
+                      src={
+                        extraMember.image ||
+                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWKPfcYrCzZYwxa23OMrxtPlGxvtc_lRyf6Q&usqp=CAU"
+                      }
+                      alt=""
+                      className="userShowImg"
+                    />
+                    <div
+                      className="userShowTopTitle"
+                      style={{
+                        fontWeight: "600",
+                        fontFamily: "monospace",
+                        fontSize: "16px",
+                      }}
+                    >
+                      <span className="userShowUsername">{extraMember}</span>
+                      <span className="userShowUserTitle">
+                        {extraMember.email}
+                      </span>
+                    </div>
+                  </div>
+                ) : null}
               </div>
             </div>
 

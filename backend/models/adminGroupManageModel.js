@@ -12,21 +12,40 @@ const adminGroupManageSchema = new Schema(
       type: String,
       required: true,
     },
+    member1Id: {
+      type: Object,
+      required: true,
+    },
     member2Id: {
-      type: String,
+      type: Object,
       required: true,
     },
     member3Id: {
-      type: String,
+      type: Object,
       required: true,
     },
     member4Id: {
-      type: String,
+      type: Object,
       required: true,
     },
     extraMemberId: {
-      type: String,
-      required: true,
+      type: Object,
+      required: false,
+    },
+    assignedSupervisor: {
+      type: Object,
+      required: false,
+      // default: "Not Assigned Yet",
+    },
+    assignedCoSupervisor: {
+      type: Object,
+      required: false,
+      // default: "Not Assigned Yet",
+    },
+    assignedPanel: {
+      type: Object,
+      required: false,
+      // default: "Not Assigned Yet",
     },
   },
   {
@@ -34,7 +53,4 @@ const adminGroupManageSchema = new Schema(
   }
 );
 
-module.exports = mongoose.model(
-  "Templates_And_Documents",
-  adminGroupManageSchema
-);
+module.exports = mongoose.model("Group_Details", adminGroupManageSchema);

@@ -19,7 +19,7 @@ const Groups = () => {
     {
       field: "action",
       headerName: "Action",
-      width: 150,
+      width: 100,
       renderCell: (params) => {
         return (
           <Link to={"/groups/" + params.row.id}>

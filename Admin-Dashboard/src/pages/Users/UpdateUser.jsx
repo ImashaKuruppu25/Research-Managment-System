@@ -11,13 +11,20 @@ import { HiUserGroup } from "react-icons/hi";
 import { useNavigate, useParams } from "react-router-dom";
 import "./UpdateUser.scss";
 import Notifications from "../../components/Notifications";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
+import app from "../../firebase";
 
 const UpdateUser = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [role, setRole] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState();
 
   //Alert Notification
   const [notify, setNotify] = useState({
@@ -56,33 +63,69 @@ const UpdateUser = () => {
     return () => (mounted = false);
   }
 
-  const submitHandler = (event) => {
-    event.preventDefault();
-    const data = {
-      name,
-      email,
-      phone,
-      role,
-      image,
-    };
+  //Update User
+  const submitHandler = (e) => {
+    e.preventDefault();
 
-    axios
-      .patch(`http://localhost:5000/admin/adminUpdateUser/${id}`, data)
-      .then((res) => {
-        setNotify({
-          isOpen: true,
-          message: "User Updated Successfully!",
-          type: "success",
+    const imageName = new Date().getTime().toString() + image;
+    const storage = getStorage(app);
+    const storageRef = ref(storage, imageName);
+
+    const uploadTask = uploadBytesResumable(storageRef, image);
+
+    //Upload the image to Firebase Storage
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + " % done");
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+        }
+      },
+      (error) => {
+        // Handle unsuccessful uploads
+      },
+      () => {
+        // Handle successful uploads on complete
+        // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+        getDownloadURL(uploadTask.snapshot.ref).then((image) => {
+          console.log("File available at :", image);
+
+          const data = {
+            name,
+            email,
+            phone,
+            role,
+            image,
+          };
+
+          axios
+            .patch(`http://localhost:5000/admin/adminUpdateUser/${id}`, data)
+            .then((res) => {
+              setNotify({
+                isOpen: true,
+                message: "User Updated Successfully!",
+                type: "success",
+              });
+              setTimeout(() => navigate("/users"), 2000);
+            })
+            .catch((err) => {
+              setNotify({
+                isOpen: true,
+                message: "Error Updating User",
+                type: "error",
+              });
+            });
         });
-        setTimeout(() => navigate("/users"), 2000);
-      })
-      .catch((err) => {
-        setNotify({
-          isOpen: true,
-          message: "Error Updating User",
-          type: "error",
-        });
-      });
+      }
+    );
   };
 
   return (
@@ -157,7 +200,7 @@ const UpdateUser = () => {
                     placeholder=""
                     className="userUpdateInput"
                     value={name}
-                    onChange={(event) => setName(event.target.value)}
+                    onChange={(e) => setName(e.target.value)}
                   />
                 </div>
 
@@ -168,7 +211,7 @@ const UpdateUser = () => {
                     placeholder=""
                     className="userUpdateInput"
                     value={email}
-                    onChange={(event) => setEmail(event.target.value)}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
                 <div className="userUpdateItem">
@@ -178,7 +221,7 @@ const UpdateUser = () => {
                     placeholder="071 707 3719"
                     className="userUpdateInput"
                     value={phone}
-                    onChange={(event) => setPhone(event.target.value)}
+                    onChange={(e) => setPhone(e.target.value)}
                   />
                 </div>
                 <div className="userUpdateItem">
@@ -188,7 +231,7 @@ const UpdateUser = () => {
                     id=""
                     className="userUpdateInput"
                     value={role}
-                    onChange={(event) => setRole(event.target.value)}
+                    onChange={(e) => setRole(e.target.value)}
                   >
                     <option>ADMIN</option>
                     <option>STUDENT</option>
@@ -200,12 +243,9 @@ const UpdateUser = () => {
                 <div className="userUpdateUpload">
                   <img
                     className="userUpdateImg"
-                    src={
-                      image ||
-                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWKPfcYrCzZYwxa23OMrxtPlGxvtc_lRyf6Q&usqp=CAU"
-                    }
+                    src={image}
                     alt=""
-                    onChange={(event) => setImage(event.target.value)}
+                    onChange={(e) => setImage(e.target.files[0])}
                   />
                   <label htmlFor="file">
                     <MdPublish className="userUpdateIcon" />
