@@ -13,7 +13,7 @@
   }
 
   &__info {
-    width: 60%;
+    width: 100%;
     @include flex(flex-start, space-between);
     flex-direction: column;
 

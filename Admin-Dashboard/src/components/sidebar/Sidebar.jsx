@@ -28,6 +28,7 @@ const Sidebar = () => {
       className="sidebar"
       style={{
         // backgroundColor: "#1a1c4c",
+        // backgroundColor: "#2c2c56",
         borderRadius: "0px 25px 25px 0px",
         maxWidth: "375px",
       }}

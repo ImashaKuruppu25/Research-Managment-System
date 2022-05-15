@@ -59,11 +59,16 @@ const Dashboard = () => {
         </div>
       </DashboardWrapperMain>
       <DashboardWrapperRight>
-        <div className="title mb">Notifications</div>
+        <div className="title mb" style={{ letterSpacing: "1px" }}>
+          Notifications
+        </div>
         <div className="mb" style={{ marginTop: "-20px" }}>
           <OverallList />
         </div>
-        <div className="title mb">Research Paper Submissions</div>
+        <div className="title mb" style={{ letterSpacing: "1px" }}>
+          {" "}
+          Submissions
+        </div>
         <div className="mb" style={{ marginTop: "-25px" }}>
           <RevenueList />
         </div>
