@@ -27,16 +27,16 @@ const Sidebar = () => {
     <div
       className="sidebar"
       style={{
-        // backgroundColor: "teal",
+        // backgroundColor: "#1a1c4c",
         borderRadius: "0px 25px 25px 0px",
         maxWidth: "375px",
       }}
     >
       <div className="sidebar__logo">
         <img
-          src="https://res.cloudinary.com/desnqqj6a/image/upload/v1648282486/research_spnshl.png"
+          src="https://res.cloudinary.com/desnqqj6a/image/upload/v1652594246/Research__7_-removebg-preview_uovuux.png"
           alt=""
-          style={{ width: "75px", height: "75px" }}
+          style={{ width: "150px", height: "150px" }}
         />
         <div className="sidebar-close" onClick={closeSidebar}>
           <i className="bx bx-x"></i>
@@ -52,15 +52,10 @@ const Sidebar = () => {
             }`}
             onClick={closeSidebar}
           >
-            <div
-              className="sidebar__menu__item__icon"
-              // style={{ color: "white" }}
-            >
-              {nav.icon}
-            </div>
+            <div className="sidebar__menu__item__icon">{nav.icon}</div>
             <div
               className="sidebar__menu__item__txt"
-              // style={{ color: "white" }}
+              style={{ fontFamily: "monospace", fontSize: "18px" }}
             >
               {nav.text}
             </div>

@@ -39,8 +39,8 @@ const Groups = () => {
           id: pGroups[i]._id,
           topic: pGroups[i].researchTopic,
           groupName: pGroups[i].groupName,
-          supervisor: pGroups[i].assignedSupervisor || "Not Assigned *",
-          coSupervisor: pGroups[i].assignedCoSupervisor || "Not Assigned *",
+          supervisor: pGroups[i].assignedSupervisor || "🛑 Not Assigned",
+          coSupervisor: pGroups[i].assignedCoSupervisor || "🛑 Not Assigned",
         };
         preparedGroupArr.push(groupObj);
       }
