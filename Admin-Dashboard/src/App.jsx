@@ -7,13 +7,14 @@ import Submissions from "./pages/Submissions";
 import Groups from "./pages/Groups/Groups";
 import Users from "./pages/Users/Users";
 import Markings from "./pages/Marking/Markings";
-import Documents from "./pages/Documents";
+import Documents from "./pages/Documents/Documents";
 import ViewGroup from "./pages/Groups/ViewGroup";
 import UpdateUser from "./pages/Users/UpdateUser";
 import UploadMarkingScheme from "./pages/Marking/UploadMarkingScheme";
 import UserRoles from "./pages/UserRoles/UserRoles";
 import CreatePanel from "./pages/UserRoles/CreatePanel";
 import EditPanel from "./pages/UserRoles/EditPanel";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -27,7 +28,7 @@ function App() {
           <Route path="users/:id" element={<UpdateUser />} />
           <Route path="userRoles" element={<UserRoles />} />
           <Route path="userRoles/createPanel" element={<CreatePanel />} />
-          <Route path="userRoles/edit" element={<EditPanel />} />
+          <Route path="userRoles/edit/:id" element={<EditPanel />} />
           <Route path="documents" element={<Documents />} />
           <Route path="markings" element={<Markings />} />
           <Route path="markings/create" element={<UploadMarkingScheme />} />

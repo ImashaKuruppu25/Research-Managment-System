@@ -9,6 +9,8 @@ import { MdDelete, MdPersonAdd } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Notifications from "../../components/Notifications";
+import ConfirmDialog from "../../components/ConfirmDialog";
 
 const UserRoles = () => {
   const [admin, setAdmin] = useState([
@@ -49,6 +51,20 @@ const UserRoles = () => {
       extraMember: "",
     },
   ]);
+
+  //Alert Notification
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
+
+  //Confirm Dialog
+  const [confirmDialog, setConfirmDialog] = useState({
+    isOpen: false,
+    title: "",
+    subTitle: "",
+  });
 
   //useEffect to get userdata from database
   useEffect(() => {
@@ -123,6 +139,34 @@ const UserRoles = () => {
 
     getAllPanels();
   }, []);
+
+  //Delete a panel
+  function deleteHandler(_id) {
+    setConfirmDialog({
+      ...ConfirmDialog,
+      isOpen: false,
+    });
+    axios
+      .delete(`http://localhost:5000/panel/deletePanel/${_id}`)
+
+      .then((res) => {
+        setNotify({
+          isOpen: true,
+          message: "User Deleted!",
+          type: "success",
+        });
+
+        setTimeout(window.location.reload.bind(window.location), 2000);
+      })
+
+      .catch((err) => {
+        setNotify({
+          isOpen: true,
+          message: "Error Deleting User",
+          type: "error",
+        });
+      });
+  }
 
   return (
     <div className="userRoles-section">
@@ -245,6 +289,7 @@ const UserRoles = () => {
         </div>
       </div>
 
+      {/* Panel Details */}
       <div className="panel-members-list">
         <div
           className="panel-header"
@@ -296,11 +341,24 @@ const UserRoles = () => {
                       marginRight: "-950px",
                     }}
                   >
-                    <Link to={`/userRoles/edit/`}>
+                    <Link to={`/userRoles/edit/${panel._id}`}>
                       <FaEdit style={{ fontSize: "24px", color: "teal" }} />
                     </Link>
 
-                    <MdDelete style={{ fontSize: "24px", color: "red" }} />
+                    <MdDelete
+                      style={{ fontSize: "24px", color: "red" }}
+                      onClick={() => {
+                        setConfirmDialog({
+                          isOpen: true,
+                          title: "Delete Panel!",
+                          subTitle:
+                            "Are you sure you want to delete this panel ?",
+                          onConfirm: () => {
+                            deleteHandler(panel._id);
+                          },
+                        });
+                      }}
+                    />
                   </div>
                 </div>
               </Typography>
@@ -308,8 +366,13 @@ const UserRoles = () => {
             <AccordionDetails>
               <Typography>
                 {panel.description}
-                <div style={{ display: "flex" }}>
-                  <div className="members" style={{ margin: "20px 0px" }}>
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  <div
+                    className="members"
+                    style={{ margin: "20px 0px", maxWidth: "300px" }}
+                  >
                     <span
                       className="userShowTitle"
                       style={{
@@ -336,12 +399,14 @@ const UserRoles = () => {
                         }
                         alt=""
                         style={{
-                          maxWidth: "50px",
-                          maxHeight: "50px",
+                          width: "60px",
+                          height: "60px",
+                          maxWidth: "60px",
+                          maxHeight: "60px",
                           borderRadius: "50%",
                         }}
                       />
-                      {panel.panelHead}
+                      {panel.panelHead.name}
                     </div>
 
                     <span
@@ -370,12 +435,14 @@ const UserRoles = () => {
                         }
                         alt=""
                         style={{
-                          maxWidth: "50px",
-                          maxHeight: "50px",
+                          width: "60px",
+                          height: "60px",
+                          maxWidth: "60px",
+                          maxHeight: "60px",
                           borderRadius: "50%",
                         }}
                       />
-                      {panel.member1}
+                      {panel.member1.name}
                     </div>
 
                     <div
@@ -394,12 +461,14 @@ const UserRoles = () => {
                         }
                         alt=""
                         style={{
-                          maxWidth: "50px",
-                          maxHeight: "50px",
+                          width: "60px",
+                          height: "60px",
+                          maxWidth: "60px",
+                          maxHeight: "60px",
                           borderRadius: "50%",
                         }}
                       />
-                      {panel.member2}
+                      {panel.member2.name}
                     </div>
                   </div>
 
@@ -411,7 +480,7 @@ const UserRoles = () => {
                       overflowY: "auto",
                       paddingRight: "30px",
                       maxWidth: "700px",
-                      marginLeft: "150px",
+                      // marginLeft: "150px",
                     }}
                   >
                     <div>
@@ -604,994 +673,12 @@ const UserRoles = () => {
             </AccordionDetails>
           </Accordion>
         ))}
-        {/* <Accordion
-          style={{
-            margin: "20px 0px",
-            borderRadius: "20px",
-            padding: "15px",
-          }}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-          >
-            <Typography style={{ fontSize: "20px", fontWeight: "700" }}>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              >
-                <span>Evaluation Panel 2</span>
-                <div
-                  className="edit-delete"
-                  style={{
-                    display: "flex",
-                    gap: "10px",
-                    marginRight: "-950px",
-                  }}
-                >
-                  <Link to={`/userRoles/edit/`}>
-                    <FaEdit style={{ fontSize: "24px", color: "teal" }} />
-                  </Link>
-
-                  <MdDelete style={{ fontSize: "24px", color: "red" }} />
-                </div>
-              </div>
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography>
-              Here's the panel memebers for this panel group. Panel contains 3
-              members and 1 has assigned as a Panel Head! If you need any
-              changed to be made, Contact the Admin!
-              <div style={{ display: "flex" }}>
-                <div className="members" style={{ margin: "20px 0px" }}>
-                  <span
-                    className="userShowTitle"
-                    style={{
-                      color: "rgb(175, 170, 170)",
-                      fontSize: "14px",
-                      fontWeight: "600",
-                    }}
-                  >
-                    Panel Head
-                  </span>
-                  <div
-                    className="member"
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px 20px",
-                      margin: "20px 0px",
-                    }}
-                  >
-                    <img
-                      src="https://res.cloudinary.com/desnqqj6a/image/upload/v1649172476/My_Img_qvpnz3.jpg"
-                      alt=""
-                      style={{
-                        maxWidth: "50px",
-                        maxHeight: "50px",
-                        borderRadius: "50%",
-                      }}
-                    />
-                    Hasith Deminda
-                  </div>
-
-                  <span
-                    className="userShowTitle"
-                    style={{
-                      color: "rgb(175, 170, 170)",
-                      fontSize: "14px",
-                      fontWeight: "600",
-                    }}
-                  >
-                    Panel Members
-                  </span>
-                  <div
-                    className="member"
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px 20px",
-                      margin: "20px 0px",
-                    }}
-                  >
-                    <img
-                      src="https://res.cloudinary.com/desnqqj6a/image/upload/v1649172476/My_Img_qvpnz3.jpg"
-                      alt=""
-                      style={{
-                        maxWidth: "50px",
-                        maxHeight: "50px",
-                        borderRadius: "50%",
-                      }}
-                    />
-                    Hasith Deminda
-                  </div>
-
-                  <div
-                    className="member"
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px 20px",
-                      margin: "20px 0px",
-                    }}
-                  >
-                    <img
-                      src="https://res.cloudinary.com/desnqqj6a/image/upload/v1649172476/My_Img_qvpnz3.jpg"
-                      alt=""
-                      style={{
-                        maxWidth: "50px",
-                        maxHeight: "50px",
-                        borderRadius: "50%",
-                      }}
-                    />
-                    Hasith Deminda
-                  </div>
-                </div>
-
-                <div
-                  className="assigned-groups"
-                  style={{
-                    margin: "20px 0px",
-                    maxHeight: "375px",
-                    overflowY: "auto",
-                    paddingRight: "30px",
-                    maxWidth: "700px",
-                    marginLeft: "150px",
-                  }}
-                >
-                  <div>
-                    <span
-                      className="userShowTitle"
-                      style={{
-                        color: "rgb(175, 170, 170)",
-                        fontSize: "14px",
-                        fontWeight: "600",
-                      }}
-                    >
-                      Group Name
-                    </span>
-                    <div
-                      className="member"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px 20px",
-                        margin: "20px 0px",
-                      }}
-                    >
-                      🔰 Research Team Number 113
-                    </div>
-                    <span
-                      className="userShowTitle"
-                      style={{
-                        color: "rgb(175, 170, 170)",
-                        fontSize: "14px",
-                        fontWeight: "600",
-                      }}
-                    >
-                      Topic
-                    </span>
-                    <div
-                      className="member"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px 20px",
-                        margin: "20px 0px",
-                      }}
-                    >
-                      🔸Complexity Matrix of Software Development Life Cycle
-                    </div>
-
-                    <hr style={{ margin: "20px 0px" }} />
-                  </div>
-                  <div>
-                    <span
-                      className="userShowTitle"
-                      style={{
-                        color: "rgb(175, 170, 170)",
-                        fontSize: "14px",
-                        fontWeight: "600",
-                      }}
-                    >
-                      Group Name
-                    </span>
-                    <div
-                      className="member"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px 20px",
-                        margin: "20px 0px",
-                      }}
-                    >
-                      🔰 Research Team Number 113
-                    </div>
-                    <span
-                      className="userShowTitle"
-                      style={{
-                        color: "rgb(175, 170, 170)",
-                        fontSize: "14px",
-                        fontWeight: "600",
-                      }}
-                    >
-                      Topic
-                    </span>
-                    <div
-                      className="member"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px 20px",
-                        margin: "20px 0px",
-                      }}
-                    >
-                      🔸Complexity Matrix of Software Development Life Cycle
-                    </div>
-
-                    <hr style={{ margin: "20px 0px" }} />
-                  </div>
-                  <div>
-                    <span
-                      className="userShowTitle"
-                      style={{
-                        color: "rgb(175, 170, 170)",
-                        fontSize: "14px",
-                        fontWeight: "600",
-                      }}
-                    >
-                      Group Name
-                    </span>
-                    <div
-                      className="member"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px 20px",
-                        margin: "20px 0px",
-                      }}
-                    >
-                      🔰 Research Team Number 113
-                    </div>
-                    <span
-                      className="userShowTitle"
-                      style={{
-                        color: "rgb(175, 170, 170)",
-                        fontSize: "14px",
-                        fontWeight: "600",
-                      }}
-                    >
-                      Topic
-                    </span>
-                    <div
-                      className="member"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px 20px",
-                        margin: "20px 0px",
-                      }}
-                    >
-                      🔸Complexity Matrix of Software Development Life Cycle
-                    </div>
-
-                    <hr style={{ margin: "20px 0px" }} />
-                  </div>
-                  <div>
-                    <span
-                      className="userShowTitle"
-                      style={{
-                        color: "rgb(175, 170, 170)",
-                        fontSize: "14px",
-                        fontWeight: "600",
-                      }}
-                    >
-                      Group Name
-                    </span>
-                    <div
-                      className="member"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px 20px",
-                        margin: "20px 0px",
-                      }}
-                    >
-                      🔰 Research Team Number 113
-                    </div>
-                    <span
-                      className="userShowTitle"
-                      style={{
-                        color: "rgb(175, 170, 170)",
-                        fontSize: "14px",
-                        fontWeight: "600",
-                      }}
-                    >
-                      Topic
-                    </span>
-                    <div
-                      className="member"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px 20px",
-                        margin: "20px 0px",
-                      }}
-                    >
-                      🔸Complexity Matrix of Software Development Life Cycle
-                    </div>
-
-                    <hr style={{ margin: "20px 0px" }} />
-                  </div>
-                </div>
-              </div>
-            </Typography>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion
-          style={{
-            margin: "20px 0px",
-            borderRadius: "20px",
-            padding: "15px",
-          }}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-          >
-            <Typography style={{ fontSize: "20px", fontWeight: "700" }}>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              >
-                <span>Evaluation Panel 3</span>
-                <div
-                  className="edit-delete"
-                  style={{
-                    display: "flex",
-                    gap: "10px",
-                    marginRight: "-950px",
-                  }}
-                >
-                  <Link to={`/userRoles/edit/`}>
-                    <FaEdit style={{ fontSize: "24px", color: "teal" }} />
-                  </Link>
-
-                  <MdDelete style={{ fontSize: "24px", color: "red" }} />
-                </div>
-              </div>
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography>
-              Here's the panel memebers for this panel group. Panel contains 3
-              members and 1 has assigned as a Panel Head! If you need any
-              changed to be made, Contact the Admin!
-              <div style={{ display: "flex" }}>
-                <div className="members" style={{ margin: "20px 0px" }}>
-                  <span
-                    className="userShowTitle"
-                    style={{
-                      color: "rgb(175, 170, 170)",
-                      fontSize: "14px",
-                      fontWeight: "600",
-                    }}
-                  >
-                    Panel Head
-                  </span>
-                  <div
-                    className="member"
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px 20px",
-                      margin: "20px 0px",
-                    }}
-                  >
-                    <img
-                      src="https://res.cloudinary.com/desnqqj6a/image/upload/v1649172476/My_Img_qvpnz3.jpg"
-                      alt=""
-                      style={{
-                        maxWidth: "50px",
-                        maxHeight: "50px",
-                        borderRadius: "50%",
-                      }}
-                    />
-                    Hasith Deminda
-                  </div>
-
-                  <span
-                    className="userShowTitle"
-                    style={{
-                      color: "rgb(175, 170, 170)",
-                      fontSize: "14px",
-                      fontWeight: "600",
-                    }}
-                  >
-                    Panel Members
-                  </span>
-                  <div
-                    className="member"
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px 20px",
-                      margin: "20px 0px",
-                    }}
-                  >
-                    <img
-                      src="https://res.cloudinary.com/desnqqj6a/image/upload/v1649172476/My_Img_qvpnz3.jpg"
-                      alt=""
-                      style={{
-                        maxWidth: "50px",
-                        maxHeight: "50px",
-                        borderRadius: "50%",
-                      }}
-                    />
-                    Hasith Deminda
-                  </div>
-
-                  <div
-                    className="member"
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px 20px",
-                      margin: "20px 0px",
-                    }}
-                  >
-                    <img
-                      src="https://res.cloudinary.com/desnqqj6a/image/upload/v1649172476/My_Img_qvpnz3.jpg"
-                      alt=""
-                      style={{
-                        maxWidth: "50px",
-                        maxHeight: "50px",
-                        borderRadius: "50%",
-                      }}
-                    />
-                    Hasith Deminda
-                  </div>
-                </div>
-
-                <div
-                  className="assigned-groups"
-                  style={{
-                    margin: "20px 0px",
-                    maxHeight: "375px",
-                    overflowY: "auto",
-                    paddingRight: "30px",
-                    maxWidth: "700px",
-                    marginLeft: "150px",
-                  }}
-                >
-                  <div>
-                    <span
-                      className="userShowTitle"
-                      style={{
-                        color: "rgb(175, 170, 170)",
-                        fontSize: "14px",
-                        fontWeight: "600",
-                      }}
-                    >
-                      Group Name
-                    </span>
-                    <div
-                      className="member"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px 20px",
-                        margin: "20px 0px",
-                      }}
-                    >
-                      🔰 Research Team Number 113
-                    </div>
-                    <span
-                      className="userShowTitle"
-                      style={{
-                        color: "rgb(175, 170, 170)",
-                        fontSize: "14px",
-                        fontWeight: "600",
-                      }}
-                    >
-                      Topic
-                    </span>
-                    <div
-                      className="member"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px 20px",
-                        margin: "20px 0px",
-                      }}
-                    >
-                      🔸Complexity Matrix of Software Development Life Cycle
-                    </div>
-
-                    <hr style={{ margin: "20px 0px" }} />
-                  </div>
-                  <div>
-                    <span
-                      className="userShowTitle"
-                      style={{
-                        color: "rgb(175, 170, 170)",
-                        fontSize: "14px",
-                        fontWeight: "600",
-                      }}
-                    >
-                      Group Name
-                    </span>
-                    <div
-                      className="member"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px 20px",
-                        margin: "20px 0px",
-                      }}
-                    >
-                      🔰 Research Team Number 113
-                    </div>
-                    <span
-                      className="userShowTitle"
-                      style={{
-                        color: "rgb(175, 170, 170)",
-                        fontSize: "14px",
-                        fontWeight: "600",
-                      }}
-                    >
-                      Topic
-                    </span>
-                    <div
-                      className="member"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px 20px",
-                        margin: "20px 0px",
-                      }}
-                    >
-                      🔸Complexity Matrix of Software Development Life Cycle
-                    </div>
-
-                    <hr style={{ margin: "20px 0px" }} />
-                  </div>
-                  <div>
-                    <span
-                      className="userShowTitle"
-                      style={{
-                        color: "rgb(175, 170, 170)",
-                        fontSize: "14px",
-                        fontWeight: "600",
-                      }}
-                    >
-                      Group Name
-                    </span>
-                    <div
-                      className="member"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px 20px",
-                        margin: "20px 0px",
-                      }}
-                    >
-                      🔰 Research Team Number 113
-                    </div>
-                    <span
-                      className="userShowTitle"
-                      style={{
-                        color: "rgb(175, 170, 170)",
-                        fontSize: "14px",
-                        fontWeight: "600",
-                      }}
-                    >
-                      Topic
-                    </span>
-                    <div
-                      className="member"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px 20px",
-                        margin: "20px 0px",
-                      }}
-                    >
-                      🔸Complexity Matrix of Software Development Life Cycle
-                    </div>
-
-                    <hr style={{ margin: "20px 0px" }} />
-                  </div>
-                  <div>
-                    <span
-                      className="userShowTitle"
-                      style={{
-                        color: "rgb(175, 170, 170)",
-                        fontSize: "14px",
-                        fontWeight: "600",
-                      }}
-                    >
-                      Group Name
-                    </span>
-                    <div
-                      className="member"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px 20px",
-                        margin: "20px 0px",
-                      }}
-                    >
-                      🔰 Research Team Number 113
-                    </div>
-                    <span
-                      className="userShowTitle"
-                      style={{
-                        color: "rgb(175, 170, 170)",
-                        fontSize: "14px",
-                        fontWeight: "600",
-                      }}
-                    >
-                      Topic
-                    </span>
-                    <div
-                      className="member"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px 20px",
-                        margin: "20px 0px",
-                      }}
-                    >
-                      🔸Complexity Matrix of Software Development Life Cycle
-                    </div>
-
-                    <hr style={{ margin: "20px 0px" }} />
-                  </div>
-                </div>
-              </div>
-            </Typography>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion
-          style={{
-            margin: "20px 0px",
-            borderRadius: "20px",
-            padding: "15px",
-          }}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-          >
-            <Typography style={{ fontSize: "20px", fontWeight: "700" }}>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              >
-                <span>Evaluation Panel 4</span>
-                <div
-                  className="edit-delete"
-                  style={{
-                    display: "flex",
-                    gap: "10px",
-                    marginRight: "-950px",
-                  }}
-                >
-                  <Link to={`/userRoles/edit/`}>
-                    <FaEdit style={{ fontSize: "24px", color: "teal" }} />
-                  </Link>
-
-                  <MdDelete style={{ fontSize: "24px", color: "red" }} />
-                </div>
-              </div>
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography>
-              Here's the panel memebers for this panel group. Panel contains 3
-              members and 1 has assigned as a Panel Head! If you need any
-              changed to be made, Contact the Admin!
-              <div style={{ display: "flex" }}>
-                <div className="members" style={{ margin: "20px 0px" }}>
-                  <span
-                    className="userShowTitle"
-                    style={{
-                      color: "rgb(175, 170, 170)",
-                      fontSize: "14px",
-                      fontWeight: "600",
-                    }}
-                  >
-                    Panel Head
-                  </span>
-                  <div
-                    className="member"
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px 20px",
-                      margin: "20px 0px",
-                    }}
-                  >
-                    <img
-                      src="https://res.cloudinary.com/desnqqj6a/image/upload/v1649172476/My_Img_qvpnz3.jpg"
-                      alt=""
-                      style={{
-                        maxWidth: "50px",
-                        maxHeight: "50px",
-                        borderRadius: "50%",
-                      }}
-                    />
-                    Hasith Deminda
-                  </div>
-
-                  <span
-                    className="userShowTitle"
-                    style={{
-                      color: "rgb(175, 170, 170)",
-                      fontSize: "14px",
-                      fontWeight: "600",
-                    }}
-                  >
-                    Panel Members
-                  </span>
-                  <div
-                    className="member"
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px 20px",
-                      margin: "20px 0px",
-                    }}
-                  >
-                    <img
-                      src="https://res.cloudinary.com/desnqqj6a/image/upload/v1649172476/My_Img_qvpnz3.jpg"
-                      alt=""
-                      style={{
-                        maxWidth: "50px",
-                        maxHeight: "50px",
-                        borderRadius: "50%",
-                      }}
-                    />
-                    Hasith Deminda
-                  </div>
-
-                  <div
-                    className="member"
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px 20px",
-                      margin: "20px 0px",
-                    }}
-                  >
-                    <img
-                      src="https://res.cloudinary.com/desnqqj6a/image/upload/v1649172476/My_Img_qvpnz3.jpg"
-                      alt=""
-                      style={{
-                        maxWidth: "50px",
-                        maxHeight: "50px",
-                        borderRadius: "50%",
-                      }}
-                    />
-                    Hasith Deminda
-                  </div>
-                </div>
-
-                <div
-                  className="assigned-groups"
-                  style={{
-                    margin: "20px 0px",
-                    maxHeight: "375px",
-                    overflowY: "auto",
-                    paddingRight: "30px",
-                    maxWidth: "700px",
-                    marginLeft: "150px",
-                  }}
-                >
-                  <div>
-                    <span
-                      className="userShowTitle"
-                      style={{
-                        color: "rgb(175, 170, 170)",
-                        fontSize: "14px",
-                        fontWeight: "600",
-                      }}
-                    >
-                      Group Name
-                    </span>
-                    <div
-                      className="member"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px 20px",
-                        margin: "20px 0px",
-                      }}
-                    >
-                      🔰 Research Team Number 113
-                    </div>
-                    <span
-                      className="userShowTitle"
-                      style={{
-                        color: "rgb(175, 170, 170)",
-                        fontSize: "14px",
-                        fontWeight: "600",
-                      }}
-                    >
-                      Topic
-                    </span>
-                    <div
-                      className="member"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px 20px",
-                        margin: "20px 0px",
-                      }}
-                    >
-                      🔸Complexity Matrix of Software Development Life Cycle
-                    </div>
-
-                    <hr style={{ margin: "20px 0px" }} />
-                  </div>
-                  <div>
-                    <span
-                      className="userShowTitle"
-                      style={{
-                        color: "rgb(175, 170, 170)",
-                        fontSize: "14px",
-                        fontWeight: "600",
-                      }}
-                    >
-                      Group Name
-                    </span>
-                    <div
-                      className="member"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px 20px",
-                        margin: "20px 0px",
-                      }}
-                    >
-                      🔰 Research Team Number 113
-                    </div>
-                    <span
-                      className="userShowTitle"
-                      style={{
-                        color: "rgb(175, 170, 170)",
-                        fontSize: "14px",
-                        fontWeight: "600",
-                      }}
-                    >
-                      Topic
-                    </span>
-                    <div
-                      className="member"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px 20px",
-                        margin: "20px 0px",
-                      }}
-                    >
-                      🔸Complexity Matrix of Software Development Life Cycle
-                    </div>
-
-                    <hr style={{ margin: "20px 0px" }} />
-                  </div>
-                  <div>
-                    <span
-                      className="userShowTitle"
-                      style={{
-                        color: "rgb(175, 170, 170)",
-                        fontSize: "14px",
-                        fontWeight: "600",
-                      }}
-                    >
-                      Group Name
-                    </span>
-                    <div
-                      className="member"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px 20px",
-                        margin: "20px 0px",
-                      }}
-                    >
-                      🔰 Research Team Number 113
-                    </div>
-                    <span
-                      className="userShowTitle"
-                      style={{
-                        color: "rgb(175, 170, 170)",
-                        fontSize: "14px",
-                        fontWeight: "600",
-                      }}
-                    >
-                      Topic
-                    </span>
-                    <div
-                      className="member"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px 20px",
-                        margin: "20px 0px",
-                      }}
-                    >
-                      🔸Complexity Matrix of Software Development Life Cycle
-                    </div>
-
-                    <hr style={{ margin: "20px 0px" }} />
-                  </div>
-                  <div>
-                    <span
-                      className="userShowTitle"
-                      style={{
-                        color: "rgb(175, 170, 170)",
-                        fontSize: "14px",
-                        fontWeight: "600",
-                      }}
-                    >
-                      Group Name
-                    </span>
-                    <div
-                      className="member"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px 20px",
-                        margin: "20px 0px",
-                      }}
-                    >
-                      🔰 Research Team Number 113
-                    </div>
-                    <span
-                      className="userShowTitle"
-                      style={{
-                        color: "rgb(175, 170, 170)",
-                        fontSize: "14px",
-                        fontWeight: "600",
-                      }}
-                    >
-                      Topic
-                    </span>
-                    <div
-                      className="member"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px 20px",
-                        margin: "20px 0px",
-                      }}
-                    >
-                      🔸Complexity Matrix of Software Development Life Cycle
-                    </div>
-
-                    <hr style={{ margin: "20px 0px" }} />
-                  </div>
-                </div>
-              </div>
-            </Typography>
-          </AccordionDetails>
-        </Accordion> */}
       </div>
+      <Notifications notify={notify} setNotify={setNotify} />
+      <ConfirmDialog
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
     </div>
   );
 };

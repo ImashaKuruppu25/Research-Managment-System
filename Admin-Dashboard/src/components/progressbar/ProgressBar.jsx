@@ -1,18 +1,18 @@
-import React, { useEffect, useRef } from 'react'
-import './progress-bar.scss'
+import React, { useEffect, useRef } from "react";
+import "./progress-bar.scss";
 
 const ProgressBar = ({ value }) => {
-    const barInnerRef = useRef()
+  const barInnerRef = useRef();
 
-    useEffect(() => {
-        barInnerRef.current.style.width = `${value}%`
-    }, [])
+  useEffect(() => {
+    barInnerRef.current.style.width = `${value}%`;
+  }, []);
 
-    return (
-        <div className='progress-bar'>
-            <div ref={barInnerRef} className="progress-bar__inner"></div>
-        </div>
-    )
-}
+  return (
+    <div className="progress-bar">
+      <div ref={barInnerRef} className="progress-bar__inner"></div>
+    </div>
+  );
+};
 
-export default ProgressBar
+export default ProgressBar;

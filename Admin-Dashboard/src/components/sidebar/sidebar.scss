@@ -4,9 +4,9 @@
 .sidebar {
   @include flex(stretch, flex-start);
   flex-direction: column;
-  color: $txtColor;
+  color: white;
   width: $sideBarWidth;
-  background-color: $mainBg;
+  background-color: $mainColor;
   height: 100vh;
   position: fixed;
   top: 0;
@@ -67,7 +67,7 @@
       }
 
       &:hover {
-        color: $mainColor;
+        color: $orange;
 
         @include tablet {
           color: $orange;
@@ -76,7 +76,7 @@
 
       &.active {
         font-weight: 700;
-        color: $mainColor;
+        color: $orange;
 
         @include tablet {
           color: $orange;
@@ -89,7 +89,7 @@
           width: 5px;
           left: 0;
           top: 0;
-          background-color: $mainColor;
+          background-color: $orange;
           border-top-right-radius: 20px;
           border-bottom-right-radius: 20px;
 
@@ -100,7 +100,7 @@
       }
 
       &__icon {
-        --size: 40px;
+        --size: 20px;
         width: var(--size);
         height: var(--size);
         margin-right: 3rem;
