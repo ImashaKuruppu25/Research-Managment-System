@@ -28,16 +28,17 @@ const Sidebar = () => {
       className="sidebar"
       style={{
         // backgroundColor: "#1a1c4c",
-        // backgroundColor: "#2c2c56",
+        backgroundColor: "#2c2c56",
+
         borderRadius: "0px 25px 25px 0px",
-        maxWidth: "375px",
+        maxWidth: "330px",
       }}
     >
       <div className="sidebar__logo">
         <img
           src="https://res.cloudinary.com/desnqqj6a/image/upload/v1652594246/Research__7_-removebg-preview_uovuux.png"
           alt=""
-          style={{ width: "150px", height: "150px" }}
+          style={{ width: "100px", height: "100px" }}
         />
         <div className="sidebar-close" onClick={closeSidebar}>
           <i className="bx bx-x"></i>
@@ -56,7 +57,7 @@ const Sidebar = () => {
             <div className="sidebar__menu__item__icon">{nav.icon}</div>
             <div
               className="sidebar__menu__item__txt"
-              style={{ fontFamily: "monospace", fontSize: "18px" }}
+              style={{ fontFamily: "monospace", fontSize: "14px" }}
             >
               {nav.text}
             </div>

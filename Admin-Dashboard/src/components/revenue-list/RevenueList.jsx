@@ -16,7 +16,10 @@ const RevenueList = () => {
             key={`revenue-${index}`}
             style={{ margin: "20px 15px" }}
           >
-            <div className="revenue-list__item__title">
+            <div
+              className="revenue-list__item__title"
+              style={{ fontSize: "16px" }}
+            >
               {item.title}
               <span
                 className={`${item.value > 50 ? "txt-success" : "txt-danger"}`}

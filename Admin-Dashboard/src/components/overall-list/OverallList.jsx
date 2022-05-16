@@ -15,10 +15,10 @@ const OverallList = () => {
               <div
                 className="title"
                 style={{
-                  fontSize: "18px",
+                  fontSize: "16px",
                   fontWeight: "400",
                   fontFamily: "monospace",
-                  color: "#0000FF",
+                  color: "#00006f",
                 }}
               >
                 🛑 {item.value} 🛑
