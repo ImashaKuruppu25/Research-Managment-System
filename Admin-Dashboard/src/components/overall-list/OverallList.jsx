@@ -7,7 +7,7 @@ const OverallList = () => {
     <div className="notification-container">
       <ul
         className="overall-list"
-        style={{ overflowY: "auto", maxHeight: "300px" }}
+        style={{ overflowY: "auto", maxHeight: "calc(100vh - 450px)" }}
       >
         {data.overall.map((item, index) => (
           <li className="overall-list__item" key={`overall-${index}`}>
