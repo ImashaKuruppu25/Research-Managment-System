@@ -24,10 +24,6 @@ const EditPanel = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    getPanelDetails();
-  }, []);
-
-  const getPanelDetails = () => {
     let mounted = true;
 
     fetch(`http://localhost:5000/panel/getOnePanel/${id}`)
@@ -50,7 +46,7 @@ const EditPanel = () => {
       });
 
     return () => (mounted = false);
-  };
+  }, [id]);
 
   const [staff, setStaff] = useState([
     {
@@ -158,7 +154,6 @@ const EditPanel = () => {
                 <div className="userShowTop">
                   <img
                     src={
-                      panelHead.image ||
                       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWKPfcYrCzZYwxa23OMrxtPlGxvtc_lRyf6Q&usqp=CAU"
                     }
                     alt=""
@@ -173,7 +168,7 @@ const EditPanel = () => {
                     }}
                   >
                     <span className="userShowUsername">{panelHead}</span>
-                    <span className="userShowUserTitle">{panelHead.email}</span>
+                    <span className="userShowUserTitle">{panelHead}</span>
                   </div>
                 </div>
               </div>
@@ -198,7 +193,7 @@ const EditPanel = () => {
                     }}
                   >
                     <span className="userShowUsername">{member1}</span>
-                    <span className="userShowUserTitle">{member1.email}</span>
+                    <span className="userShowUserTitle">{member1}</span>
                   </div>
                 </div>
 
@@ -220,7 +215,7 @@ const EditPanel = () => {
                     }}
                   >
                     <span className="userShowUsername">{member2}</span>
-                    <span className="userShowUserTitle">{member2.email}</span>
+                    <span className="userShowUserTitle">{member2}</span>
                   </div>
                 </div>
                 {/* Extra Member */}
@@ -229,7 +224,6 @@ const EditPanel = () => {
                   <div className="userShowTop">
                     <img
                       src={
-                        extraMember.image ||
                         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWKPfcYrCzZYwxa23OMrxtPlGxvtc_lRyf6Q&usqp=CAU"
                       }
                       alt=""
@@ -244,9 +238,7 @@ const EditPanel = () => {
                       }}
                     >
                       <span className="userShowUsername">{extraMember}</span>
-                      <span className="userShowUserTitle">
-                        {extraMember.email}
-                      </span>
+                      <span className="userShowUserTitle">{extraMember}</span>
                     </div>
                   </div>
                 ) : null}
@@ -332,7 +324,7 @@ const EditPanel = () => {
                     >
                       <option>Select Additional Panel Member</option>
                       {staff.map((staff) => (
-                        <option>{staff.name}</option>
+                        <option>{staff}</option>
                       ))}
                     </select>
                   </div>

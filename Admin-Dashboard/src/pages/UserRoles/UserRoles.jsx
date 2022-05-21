@@ -338,7 +338,7 @@ const UserRoles = () => {
                     style={{
                       display: "flex",
                       gap: "10px",
-                      marginRight: "-950px",
+                      marginRight: "-1000px",
                     }}
                   >
                     <Link to={`/userRoles/edit/${panel._id}`}>

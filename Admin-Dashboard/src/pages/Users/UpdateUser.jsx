@@ -25,6 +25,7 @@ const UpdateUser = () => {
   const [phone, setPhone] = useState("");
   const [role, setRole] = useState("");
   const [image, setImage] = useState();
+  const [imageFile, setImageFile] = useState();
 
   //Alert Notification
   const [notify, setNotify] = useState({
@@ -37,10 +38,6 @@ const UpdateUser = () => {
   let navigate = useNavigate();
 
   useEffect(() => {
-    updateUserDetails();
-  }, []);
-
-  function updateUserDetails() {
     let mounted = true;
 
     fetch(`http://localhost:5000/admin/adminGetOneUser/${id}`)
@@ -61,17 +58,17 @@ const UpdateUser = () => {
       });
 
     return () => (mounted = false);
-  }
+  }, [id]);
 
   //Update User
   const submitHandler = (e) => {
     e.preventDefault();
 
-    const imageName = new Date().getTime().toString() + image;
+    const imageName = new Date().getTime().toString() + imageFile.name;
     const storage = getStorage(app);
     const storageRef = ref(storage, imageName);
 
-    const uploadTask = uploadBytesResumable(storageRef, image);
+    const uploadTask = uploadBytesResumable(storageRef, imageFile);
 
     //Upload the image to Firebase Storage
     uploadTask.on(
@@ -241,16 +238,23 @@ const UpdateUser = () => {
               </div>
               <div className="userUpdateRight">
                 <div className="userUpdateUpload">
-                  <img
-                    className="userUpdateImg"
-                    src={image}
-                    alt=""
-                    onChange={(e) => setImage(e.target.files[0])}
-                  />
+                  <img className="userUpdateImg" src={image} alt="" />
                   <label htmlFor="file">
                     <MdPublish className="userUpdateIcon" />
                   </label>
-                  <input type="file" id="file" style={{ display: "none" }} />
+                  <input
+                    type="file"
+                    id="file"
+                    style={{ display: "none" }}
+                    onChange={(e) => {
+                      setImageFile(e.target.files[0]);
+                      let reader = new FileReader();
+                      reader.onloadend = function () {
+                        setImage(reader.result);
+                      };
+                      reader.readAsDataURL(e.target.files[0]);
+                    }}
+                  />
                 </div>
                 <button type="submit" className="userUpdateButton">
                   Update

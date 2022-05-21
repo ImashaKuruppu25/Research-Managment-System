@@ -6,6 +6,6 @@ export function getPokemon() {
 }
 
 export function filterPokemon(pokeType) {
-  let filtredPokemon = getPokemon().filter((type) => type.tipo === pokeType);
+  let filtredPokemon = getPokemon().filter((type) => type.type === pokeType);
   return filtredPokemon;
 }
