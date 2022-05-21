@@ -3,7 +3,7 @@ import "./scss/App.scss";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import MainLayout from "./layout/MainLayout";
-import Submissions from "./pages/Submissions";
+import Submissions from "./pages/Submissions/Submissions";
 import Groups from "./pages/Groups/Groups";
 import Users from "./pages/Users/Users";
 import Markings from "./pages/Marking/Markings";

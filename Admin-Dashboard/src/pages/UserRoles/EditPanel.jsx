@@ -24,10 +24,6 @@ const EditPanel = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    getPanelDetails();
-  }, []);
-
-  const getPanelDetails = () => {
     let mounted = true;
 
     fetch(`http://localhost:5000/panel/getOnePanel/${id}`)
@@ -50,7 +46,7 @@ const EditPanel = () => {
       });
 
     return () => (mounted = false);
-  };
+  }, [id]);
 
   const [staff, setStaff] = useState([
     {
@@ -113,6 +109,56 @@ const EditPanel = () => {
         });
       });
   };
+
+  const panelHeadClickHandler = (id) => {
+    console.log(id);
+    const selectedStaff = staff.find(
+      (staffMemberPanelHead) => staffMemberPanelHead._id === id
+    );
+    setPanelHead({
+      id: selectedStaff._id,
+      name: selectedStaff.name,
+      email: selectedStaff.email,
+      image: selectedStaff.image,
+    });
+  };
+
+  const member1ClickHandler = (id) => {
+    console.log(id);
+
+    const selectedStaff = staff.find((staffMember1) => staffMember1._id === id);
+    console.log(selectedStaff);
+    setMember1({
+      id: selectedStaff._id,
+      name: selectedStaff.name,
+      email: selectedStaff.email,
+      image: selectedStaff.image,
+    });
+  };
+
+  const member2ClickHandler = (id) => {
+    console.log(id);
+    const selectedStaff = staff.find((staffMember2) => staffMember2._id === id);
+    setMember2({
+      id: selectedStaff._id,
+      name: selectedStaff.name,
+      email: selectedStaff.email,
+      image: selectedStaff.image,
+    });
+  };
+
+  const extraMemberClickHandler = (id) => {
+    const selectedStaff = staff.find(
+      (staffMemberExtra) => staffMemberExtra._id === id
+    );
+    setExtraMember({
+      id: selectedStaff._id,
+      name: selectedStaff.name,
+      email: selectedStaff.email,
+      image: selectedStaff.image,
+    });
+  };
+
   return (
     <div>
       <div className="view-group-container" style={{ marginTop: "-25px" }}>
@@ -172,7 +218,7 @@ const EditPanel = () => {
                       fontSize: "16px",
                     }}
                   >
-                    <span className="userShowUsername">{panelHead}</span>
+                    <span className="userShowUsername">{panelHead.name}</span>
                     <span className="userShowUserTitle">{panelHead.email}</span>
                   </div>
                 </div>
@@ -197,7 +243,7 @@ const EditPanel = () => {
                       fontSize: "16px",
                     }}
                   >
-                    <span className="userShowUsername">{member1}</span>
+                    <span className="userShowUsername">{member1.name}</span>
                     <span className="userShowUserTitle">{member1.email}</span>
                   </div>
                 </div>
@@ -219,7 +265,7 @@ const EditPanel = () => {
                       fontSize: "16px",
                     }}
                   >
-                    <span className="userShowUsername">{member2}</span>
+                    <span className="userShowUsername">{member2.name}</span>
                     <span className="userShowUserTitle">{member2.email}</span>
                   </div>
                 </div>
@@ -243,7 +289,9 @@ const EditPanel = () => {
                         fontSize: "16px",
                       }}
                     >
-                      <span className="userShowUsername">{extraMember}</span>
+                      <span className="userShowUsername">
+                        {extraMember.name}
+                      </span>
                       <span className="userShowUserTitle">
                         {extraMember.email}
                       </span>
@@ -286,12 +334,12 @@ const EditPanel = () => {
                     <label>Panel Head</label>
                     <select
                       className="userUpdateInput"
-                      value={panelHead}
-                      onChange={(e) => setPanelHead(e.target.value)}
+                      value={panelHead.id}
+                      onChange={(e) => panelHeadClickHandler(e.target.value)}
                     >
                       <option>Select Panel head</option>
                       {staff.map((staff) => (
-                        <option>{staff.name}</option>
+                        <option value={staff._id}>{staff.name}</option>
                       ))}
                     </select>
                   </div>
@@ -301,12 +349,12 @@ const EditPanel = () => {
                     <label>Panel Member 1</label>
                     <select
                       className="userUpdateInput"
-                      value={member1}
-                      onChange={(e) => setMember1(e.target.value)}
+                      value={member1.id}
+                      onChange={(e) => member1ClickHandler(e.target.value)}
                     >
                       <option>Select Panel Member</option>
                       {staff.map((staff) => (
-                        <option>{staff.name}</option>
+                        <option value={staff._id}>{staff.name}</option>
                       ))}
                     </select>
                   </div>
@@ -314,12 +362,12 @@ const EditPanel = () => {
                     <label>Panel Member 2</label>
                     <select
                       className="userUpdateInput"
-                      value={member2}
-                      onChange={(e) => setMember2(e.target.value)}
+                      value={member2.id}
+                      onChange={(e) => member2ClickHandler(e.target.value)}
                     >
                       <option>Select Panel Member</option>
                       {staff.map((staff) => (
-                        <option>{staff.name}</option>
+                        <option value={staff._id}>{staff.name}</option>
                       ))}
                     </select>
                   </div>
@@ -327,12 +375,12 @@ const EditPanel = () => {
                     <label>Additional Panel Member</label>
                     <select
                       className="userUpdateInput"
-                      value={extraMember}
-                      onChange={(e) => setExtraMember(e.target.value)}
+                      value={extraMember.id}
+                      onChange={(e) => extraMemberClickHandler(e.target.value)}
                     >
                       <option>Select Additional Panel Member</option>
                       {staff.map((staff) => (
-                        <option>{staff.name}</option>
+                        <option value={staff._id}>{staff.name}</option>
                       ))}
                     </select>
                   </div>

@@ -5,10 +5,16 @@ import ProgressBar from "../progressbar/ProgressBar";
 
 const RevenueList = () => {
   return (
-    <div className="paper-submissions-container">
+    <div
+      className="paper-submissions-container"
+      style={{ paddingBottom: "50px" }}
+    >
       <ul
         className="revenue-list"
-        style={{ overflowY: "auto", maxHeight: "200px" }}
+        style={{
+          overflowY: "auto",
+          height: "calc(100vh - 500px)",
+        }}
       >
         {data.revenueByChannel.map((item, index) => (
           <li

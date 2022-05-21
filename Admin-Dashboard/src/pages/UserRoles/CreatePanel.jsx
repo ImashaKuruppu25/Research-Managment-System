@@ -89,6 +89,7 @@ const CreatePanel = () => {
   };
 
   const panelHeadClickHandler = (id) => {
+    console.log(id);
     const selectedStaff = staff.find(
       (staffMemberPanelHead) => staffMemberPanelHead._id === id
     );
@@ -101,22 +102,26 @@ const CreatePanel = () => {
   };
 
   const member1ClickHandler = (id) => {
+    console.log(id);
+
     const selectedStaff = staff.find((staffMember1) => staffMember1._id === id);
+    console.log(selectedStaff);
     setMember1({
       id: selectedStaff._id,
       name: selectedStaff.name,
       email: selectedStaff.email,
-      // image: selectedStaff.image,
+      image: selectedStaff.image,
     });
   };
 
   const member2ClickHandler = (id) => {
+    console.log(id);
     const selectedStaff = staff.find((staffMember2) => staffMember2._id === id);
     setMember2({
       id: selectedStaff._id,
       name: selectedStaff.name,
       email: selectedStaff.email,
-      // image: selectedStaff.image,
+      image: selectedStaff.image,
     });
   };
 
@@ -128,7 +133,7 @@ const CreatePanel = () => {
       id: selectedStaff._id,
       name: selectedStaff.name,
       email: selectedStaff.email,
-      // image: selectedStaff.image,
+      image: selectedStaff.image,
     });
   };
 
@@ -185,7 +190,7 @@ const CreatePanel = () => {
                     className="userShowImg"
                   />
                   <div className="userShowTopTitle">
-                    <span className="userShowUsername">{member1}</span>
+                    <span className="userShowUsername">{member1.name}</span>
                     <span className="userShowUserTitle">{member1.email}</span>
                   </div>
                 </div>
@@ -200,10 +205,31 @@ const CreatePanel = () => {
                     className="userShowImg"
                   />
                   <div className="userShowTopTitle">
-                    <span className="userShowUsername">{member2}</span>
+                    <span className="userShowUsername">{member2.name}</span>
                     <span className="userShowUserTitle">{member2.email}</span>
                   </div>
                 </div>
+
+                {extraMember ? (
+                  <div className="userShowTop">
+                    <img
+                      src={
+                        extraMember.image ||
+                        "https://res.cloudinary.com/desnqqj6a/image/upload/v1650539455/SeekPng.com_blue-circle-icon-png_4287240_quhjnc.png"
+                      }
+                      alt=""
+                      className="userShowImg"
+                    />
+                    <div className="userShowTopTitle">
+                      <span className="userShowUsername">
+                        {extraMember.name}
+                      </span>
+                      <span className="userShowUserTitle">
+                        {extraMember.email}
+                      </span>
+                    </div>
+                  </div>
+                ) : null}
               </div>
             </div>
 
@@ -241,7 +267,7 @@ const CreatePanel = () => {
                       onChange={(e) => panelHeadClickHandler(e.target.value)}
                     >
                       <option> - Select Panel Head - </option>
-                      {staff.map((staff, id) => (
+                      {staff.map((staff) => (
                         <option value={staff._id}>{staff.name}</option>
                       ))}
                     </select>
@@ -256,7 +282,7 @@ const CreatePanel = () => {
                     >
                       <option> - Select Panel Member - </option>
 
-                      {staff.map((staff, id) => (
+                      {staff.map((staff) => (
                         <option value={staff._id}>{staff.name}</option>
                       ))}
                     </select>
@@ -280,7 +306,7 @@ const CreatePanel = () => {
                       onChange={(e) => extraMemberClickHandler(e.target.value)}
                     >
                       <option> - Select Additional Panel Member - </option>
-                      {staff.map((staff, id) => (
+                      {staff.map((staff) => (
                         <option value={staff._id}>{staff.name}</option>
                       ))}
                     </select>

@@ -152,7 +152,7 @@ const UserRoles = () => {
       .then((res) => {
         setNotify({
           isOpen: true,
-          message: "User Deleted!",
+          message: "Panel Deleted !",
           type: "success",
         });
 
@@ -162,7 +162,7 @@ const UserRoles = () => {
       .catch((err) => {
         setNotify({
           isOpen: true,
-          message: "Error Deleting User",
+          message: "Error Deleting Panel",
           type: "error",
         });
       });
@@ -249,6 +249,7 @@ const UserRoles = () => {
           </div>
         </div>
 
+        {/* Students List */}
         <div className="section3">
           <div className="userRoles-card">
             <div className="userRoles-card-title">STUDENT LIST</div>
@@ -338,11 +339,11 @@ const UserRoles = () => {
                     style={{
                       display: "flex",
                       gap: "10px",
-                      marginRight: "-950px",
+                      marginRight: "-1000px",
                     }}
                   >
                     <Link to={`/userRoles/edit/${panel._id}`}>
-                      <FaEdit style={{ fontSize: "24px", color: "teal" }} />
+                      <FaEdit style={{ fontSize: "24px", color: "green" }} />
                     </Link>
 
                     <MdDelete
@@ -470,6 +471,34 @@ const UserRoles = () => {
                       />
                       {panel.member2.name}
                     </div>
+
+                    {panel.extraMember ? (
+                      <div
+                        className="member"
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "10px 20px",
+                          margin: "20px 0px",
+                        }}
+                      >
+                        <img
+                          src={
+                            panel.extraMember.image ||
+                            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWKPfcYrCzZYwxa23OMrxtPlGxvtc_lRyf6Q&usqp=CAU"
+                          }
+                          alt=""
+                          style={{
+                            width: "60px",
+                            height: "60px",
+                            maxWidth: "60px",
+                            maxHeight: "60px",
+                            borderRadius: "50%",
+                          }}
+                        />
+                        {panel.extraMember.name}
+                      </div>
+                    ) : null}
                   </div>
 
                   <div
