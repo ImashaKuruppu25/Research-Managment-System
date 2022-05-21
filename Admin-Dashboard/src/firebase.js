@@ -16,4 +16,6 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
+// export const storageNew = "gs://research-management-syst-51836.appspot.com";
+
 export default app;

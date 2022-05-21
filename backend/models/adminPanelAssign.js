@@ -11,19 +11,19 @@ const panelSchema = new mongoose.Schema(
       required: true,
     },
     panelHead: {
-      type: String,
+      type: Object,
       required: true,
     },
     member1: {
-      type: String,
+      type: Object,
       required: true,
     },
     member2: {
-      type: String,
+      type: Object,
       required: true,
     },
     extraMember: {
-      type: String,
+      type: Object,
     },
   },
   {

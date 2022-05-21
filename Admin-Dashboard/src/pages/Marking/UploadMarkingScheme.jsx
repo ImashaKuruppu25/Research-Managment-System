@@ -10,35 +10,38 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import app from "../../firebase";
+import Notifications from "../../components/Notifications";
 
 const UploadMarkingScheme = () => {
   const [topic, setTopic] = useState("");
   const [description, setDescription] = useState("");
   const [doc, setDoc] = useState(null);
 
+  //Alert Notification
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
+
   const navigate = useNavigate();
 
   function sendData(e) {
     e.preventDefault();
 
-    const fileName = new Date().getTime() + doc.name;
+    const fileName = new Date().getTime().toString() + doc.name;
     const storage = getStorage(app);
     const storageRef = ref(storage, fileName);
 
     const uploadTask = uploadBytesResumable(storageRef, doc);
 
-    // Register three observers:
-    // 1. 'state_changed' observer, called any time the state changes
-    // 2. Error observer, called on failure
-    // 3. Completion observer, called on successful completion
+    //Upload the file to Firebase Storage
     uploadTask.on(
       "state_changed",
       (snapshot) => {
-        // Observe state change events such as progress, pause, and resume
-        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
         const progress =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log("Upload is " + progress + "% done");
+        console.log("Upload is " + progress + " % done");
         switch (snapshot.state) {
           case "paused":
             console.log("Upload is paused");
@@ -54,30 +57,40 @@ const UploadMarkingScheme = () => {
       () => {
         // Handle successful uploads on complete
         // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          console.log("File available at", downloadURL);
+        getDownloadURL(uploadTask.snapshot.ref).then((doc) => {
+          console.log("File available at :", doc);
+
+          const newMarkingScheme = {
+            topic,
+            description,
+            doc,
+          };
+          console.log(newMarkingScheme);
+          axios
+            .post(
+              "http://localhost:5000/marking/addMarkingScheme",
+              newMarkingScheme
+            )
+            .then(() => {
+              setNotify({
+                isOpen: true,
+                message: "Marking Scheme Uploaded Successfully !",
+                type: "success",
+              });
+              setTimeout(() => navigate("/markings"), 2000);
+            })
+            .catch((res) => {
+              setNotify({
+                isOpen: true,
+                message: "Error adding Marking Scheme",
+                type: "error",
+              });
+            });
         });
       }
     );
-
-    const newMarkingScheme = {
-      topic,
-      description,
-      doc,
-    };
-
-    axios
-      .post("http://localhost:5000/marking/addMarkingScheme", newMarkingScheme)
-      .then(() => {
-        alert("Marking Scheme Added Successfully!");
-        navigate("/markings");
-      })
-      .catch((res) => {
-        alert("Marking Scheme Adding Failed!");
-      });
   }
-
-  console.log(doc);
+  // console.log(doc ? doc.name : "");
 
   return (
     <div className="container-uploader">
@@ -130,7 +143,7 @@ const UploadMarkingScheme = () => {
                 style={{ padding: "10px 20px" }}
                 autoFocus={true}
                 onChange={(e) => {
-                  setDoc(e.target.value);
+                  setDoc(e.target.files[0]);
                 }}
               />
             </div>
@@ -144,6 +157,7 @@ const UploadMarkingScheme = () => {
           </form>
         </div>
       </div>
+      <Notifications notify={notify} setNotify={setNotify} />
     </div>
   );
 };

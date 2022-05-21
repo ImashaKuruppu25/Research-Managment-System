@@ -1,8 +1,156 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./ViewGroup.scss";
 import { Button } from "react-bootstrap";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 
 const ViewGroup = () => {
+  const { id } = useParams();
+
+  const [groupName, setgroupName] = useState("");
+  const [researchTopic, setresearchTopic] = useState("");
+  const [member1Id, setmember1Id] = useState("");
+  const [member2Id, setmember2Id] = useState("");
+  const [member3Id, setmember3Id] = useState("");
+  const [member4Id, setmember4Id] = useState("");
+  const [extraMemberId, setextraMemberId] = useState("");
+  const [assignedSupervisor, setassignedSupervisor] = useState("");
+  const [assignedCoSupervisor, setassignedCoSupervisor] = useState("");
+  const [assignedPanel, setassignedPanel] = useState("");
+
+  //Alert Notification
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
+
+  let navigate = useNavigate();
+
+  useEffect(() => {
+    getGroupDetails();
+  }, []);
+
+  const getGroupDetails = () => {
+    let mounted = true;
+
+    fetch(`http://localhost:5000/group/getOneGroup/${id}`)
+      .then((res) => res.json())
+
+      .then((group) => {
+        if (mounted) {
+          setgroupName(group.groupName);
+          setresearchTopic(group.researchTopic);
+          setmember1Id(group.member1Id);
+          setmember2Id(group.member2Id);
+          setmember3Id(group.member3Id);
+          setmember4Id(group.member4Id);
+          setextraMemberId(group.extraMemberId);
+          setassignedSupervisor(group.assignedSupervisor);
+          setassignedCoSupervisor(group.assignedCoSupervisor);
+          setassignedPanel(group.assignedPanel);
+        }
+      });
+
+    return () => (mounted = false);
+  };
+
+  //Use State for getting all the staff members
+  const [staff, setStaff] = useState([
+    {
+      name: "",
+      email: "",
+      role: "",
+      image: "",
+      phone: "",
+    },
+  ]);
+
+  //Use State for getting all the studets
+  const [students, setStudents] = useState([
+    {
+      name: "",
+      email: "",
+      role: "",
+      image: "",
+      phone: "",
+    },
+  ]);
+
+  //Use State for getting all the panels
+  const [panel, setPanel] = useState([
+    {
+      name: "",
+      email: "",
+      role: "",
+      image: "",
+      phone: "",
+    },
+  ]);
+
+  //Get all the staff members
+  useEffect(() => {
+    function getStaffList() {
+      axios
+
+        .get("http://localhost:5000/panel/allStaff/")
+
+        .then((res) => {
+          console.log(res.data);
+
+          setStaff(res.data);
+        })
+
+        .catch((err) => {
+          alert(err.message);
+        });
+    }
+
+    getStaffList();
+  }, []);
+
+  //Get all the students
+  useEffect(() => {
+    function getStudentList() {
+      axios
+
+        .get("http://localhost:5000/panel/allStudents/")
+
+        .then((res) => {
+          console.log(res.data);
+
+          setStudents(res.data);
+        })
+
+        .catch((err) => {
+          alert(err.message);
+        });
+    }
+
+    getStudentList();
+  }, []);
+
+  //Get all the panels
+  useEffect(() => {
+    function getPanelList() {
+      axios
+
+        .get("http://localhost:5000/panel/getAllPanels/")
+
+        .then((res) => {
+          console.log(res.data);
+
+          setPanel(res.data);
+        })
+
+        .catch((err) => {
+          alert(err.message);
+        });
+    }
+
+    getPanelList();
+  }, []);
+
   return (
     <div className="view-group-container" style={{ marginTop: "-25px" }}>
       <div className="user">
@@ -18,9 +166,7 @@ const ViewGroup = () => {
           >
             <span className="userShowTitle">Research Topic</span>
             <br />
-            <span className="userShowUserTitle">
-              Complexity Matrix of Software Development Life Cycle
-            </span>
+            <span className="userShowUserTitle">{researchTopic}</span>
             <div className="userShowBottom">
               <span className="userShowTitle">Group Members</span>
               <div className="userShowTop">
@@ -30,10 +176,8 @@ const ViewGroup = () => {
                   className="userShowImg"
                 />
                 <div className="userShowTopTitle">
-                  <span className="userShowUsername">Hasith Deminda</span>
-                  <span className="userShowUserTitle">
-                    demindahasith@gmail.com
-                  </span>
+                  <span className="userShowUsername">{member1Id.name}</span>
+                  <span className="userShowUserTitle">{member1Id.email}</span>
                 </div>
               </div>
               <div className="userShowTop">
