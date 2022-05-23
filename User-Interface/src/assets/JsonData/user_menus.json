@@ -2,7 +2,7 @@
     {
         "icon": "bx bx-user",
         "content": "Profile",
-        "route": "/customers"
+        "route": "/teams"
     },
     {
         "icon": "bx bx-wallet-alt",

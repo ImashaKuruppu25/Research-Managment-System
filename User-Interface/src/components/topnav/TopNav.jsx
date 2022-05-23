@@ -8,8 +8,6 @@ import Dropdown from '../dropdown/Dropdown'
 
 import ThemeMenu from '../thememenu/ThemeMenu'
 
-import notifications from '../../assets/JsonData/notification.json'
-
 import user_image from '../../assets/images/chanuth.png'
 
 import user_menu from '../../assets/JsonData/user_menus.json'

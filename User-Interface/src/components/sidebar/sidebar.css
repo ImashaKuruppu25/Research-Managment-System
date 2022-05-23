@@ -1,6 +1,7 @@
 .sidebar {
     min-width: var(--sidebar-width);
     height: 100vh;
+    margin-top: 91px;
     position: fixed;
     left: 0;
     top: 0;

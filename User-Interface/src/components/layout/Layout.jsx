@@ -4,7 +4,7 @@ import './layout.css'
 
 import Sidebar from '../sidebar/Sidebar'
 import TopNav from '../topnav/TopNav'
-import Routes from '../../App'
+import App from '../../App'
 
 import { BrowserRouter, Route } from 'react-router-dom'
 
@@ -34,11 +34,11 @@ const Layout = () => {
         <BrowserRouter>
             <Route render={(props) => (
                 <div className={`layout ${themeReducer.mode} ${themeReducer.color}`}>
-                    <Sidebar {...props}/>
                     <div className="layout__content">
                         <TopNav/>
+                        <Sidebar {...props}/>
                         <div className="layout__content-main">
-                            <Routes/>
+                            <App/>
                         </div>
                     </div>
                 </div>

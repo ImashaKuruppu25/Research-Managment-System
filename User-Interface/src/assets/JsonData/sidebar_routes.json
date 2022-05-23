@@ -20,9 +20,9 @@
         "icon": "bx bx-file"
     },
     {
-        "display_name": "LogOut",
-        "route": "/settings",
-        "icon": "bx bx-log-out-circle"
+        "display_name": "Login",
+        "route": "/login",
+        "icon": "bx bx-log-in-circle"
     }
 ]
 

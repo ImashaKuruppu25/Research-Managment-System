@@ -4,6 +4,8 @@
     align-items: center;
     justify-content: space-between;
     height: var(--topnav-height);
+    box-shadow: 5px 4px 8px #888888;
+    
 }
 
 .topnav__search {

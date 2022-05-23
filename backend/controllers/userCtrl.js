@@ -10,8 +10,8 @@ const userCtrl = {
             const user = await Users.findOne({email})
             if(user) return res.status(400).json({msg: "The email already exists."})
 
-            if(password.length < 6) 
-                return res.status(400).json({msg: "Password is at least 6 characters long."})
+            if(password.length < 4) 
+                return res.status(400).json({msg: "Password is at least 4 characters long."})
 
             // Password Encryption
             const passwordHash = await bcrypt.hash(password, 10)
