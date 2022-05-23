@@ -2,12 +2,36 @@ import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import "./Users.scss";
 import { MdDelete } from "react-icons/md";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
+import Notifications from "../../components/Notifications";
+import ConfirmDialog from "../../components/ConfirmDialog";
 
 const Users = () => {
-  const [users, setUsers] = useState([]);
-  const navigate = useNavigate();
+  const [users, setUsers] = useState([
+    {
+      id: "",
+      name: "",
+      email: "",
+      role: "",
+      image: "",
+      phone: "",
+    },
+  ]);
+
+  //Alert Notification
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
+
+  //Confirm Dialog
+  const [confirmDialog, setConfirmDialog] = useState({
+    isOpen: false,
+    title: "",
+    subTitle: "",
+  });
 
   useEffect(() => {
     const prepareUsers = async () => {
@@ -40,20 +64,32 @@ const Users = () => {
     prepareUsers();
   }, []);
 
-  // console.log(users);
-
   //Delete a User
-  function deleteHandler(_id) {
+  function deleteHandler(id) {
+    setConfirmDialog({
+      ...ConfirmDialog,
+      isOpen: false,
+    });
     axios
-      .delete(`http://localhost:5000/admin/adminDeleteUser/${_id}`)
+      .delete(`http://localhost:5000/admin/adminDeleteUser/${id}`)
 
       .then((res) => {
-        alert("User Deleted!");
+        setNotify({
+          isOpen: true,
+          message: "User Deleted!",
+          type: "success",
+        });
 
-        navigate("/users");
+        setTimeout(window.location.reload.bind(window.location), 2000);
       })
 
-      .catch();
+      .catch((err) => {
+        setNotify({
+          isOpen: true,
+          message: "Error Deleting User",
+          type: "error",
+        });
+      });
   }
 
   const columns = [
@@ -86,22 +122,20 @@ const Users = () => {
 
             <MdDelete
               className="userlist-delete-btn"
-              onClick={() => deleteHandler(users._id)}
+              onClick={() => {
+                setConfirmDialog({
+                  isOpen: true,
+                  title: "Delete User!",
+                  subTitle: "Are you sure you want to delete this user?",
+                  onConfirm: () => {
+                    deleteHandler(params.row.id);
+                  },
+                });
+              }}
             />
           </div>
         );
       },
-    },
-  ];
-
-  const rows = [
-    {
-      id: 1,
-      avatar:
-        "https://res.cloudinary.com/desnqqj6a/image/upload/v1650175831/fitness_dmymhn.png",
-      userName: "Hasith Deminda",
-      email: "Hasith@gmail.com",
-      role: "STUDENT",
     },
   ];
 
@@ -121,6 +155,11 @@ const Users = () => {
           style={{ overflowX: "auto" }}
         />
       </div>
+      <Notifications notify={notify} setNotify={setNotify} />
+      <ConfirmDialog
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
     </div>
   );
 };

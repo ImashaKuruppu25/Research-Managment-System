@@ -1,4 +1,5 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import {
   MdLocationSearching,
   MdMailOutline,
@@ -6,10 +7,124 @@ import {
   MdPhoneAndroid,
   MdPublish,
 } from "react-icons/md";
-
+import { HiUserGroup } from "react-icons/hi";
+import { useNavigate, useParams } from "react-router-dom";
 import "./UpdateUser.scss";
+import Notifications from "../../components/Notifications";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
+import app from "../../firebase";
 
 const UpdateUser = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [role, setRole] = useState("");
+  const [image, setImage] = useState();
+  const [imageFile, setImageFile] = useState();
+
+  //Alert Notification
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
+
+  const { id } = useParams();
+  let navigate = useNavigate();
+
+  useEffect(() => {
+    let mounted = true;
+
+    fetch(`http://localhost:5000/admin/adminGetOneUser/${id}`)
+      .then((res) => res.json())
+
+      .then((user) => {
+        if (mounted) {
+          setName(user.name);
+
+          setEmail(user.email);
+
+          setPhone(user.phone);
+
+          setRole(user.role);
+
+          setImage(user.image);
+        }
+      });
+
+    return () => (mounted = false);
+  }, [id]);
+
+  //Update User
+  const submitHandler = (e) => {
+    e.preventDefault();
+
+    const imageName = new Date().getTime().toString() + imageFile.name;
+    const storage = getStorage(app);
+    const storageRef = ref(storage, imageName);
+
+    const uploadTask = uploadBytesResumable(storageRef, imageFile);
+
+    //Upload the image to Firebase Storage
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + " % done");
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+        }
+      },
+      (error) => {
+        // Handle unsuccessful uploads
+      },
+      () => {
+        // Handle successful uploads on complete
+        // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+        getDownloadURL(uploadTask.snapshot.ref).then((image) => {
+          console.log("File available at :", image);
+
+          const data = {
+            name,
+            email,
+            phone,
+            role,
+            image,
+          };
+
+          axios
+            .patch(`http://localhost:5000/admin/adminUpdateUser/${id}`, data)
+            .then((res) => {
+              setNotify({
+                isOpen: true,
+                message: "User Updated Successfully!",
+                type: "success",
+              });
+              setTimeout(() => navigate("/users"), 2000);
+            })
+            .catch((err) => {
+              setNotify({
+                isOpen: true,
+                message: "Error Updating User",
+                type: "error",
+              });
+            });
+        });
+      }
+    );
+  };
+
   return (
     <div className="update-user-container">
       <div className="user">
@@ -25,30 +140,31 @@ const UpdateUser = () => {
           >
             <div className="userShowTop">
               <img
-                src="https://res.cloudinary.com/desnqqj6a/image/upload/v1650175831/fitness_dmymhn.png"
+                src={
+                  image ||
+                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWKPfcYrCzZYwxa23OMrxtPlGxvtc_lRyf6Q&usqp=CAU"
+                }
                 alt=""
                 className="userShowImg"
               />
               <div className="userShowTopTitle">
-                <span className="userShowUsername">Hasith Deminda</span>
+                <span className="userShowUsername">{name}</span>
               </div>
             </div>
             <div className="userShowBottom">
               <span className="userShowTitle">Account Details</span>
               <div className="userShowInfo">
                 <MdPermIdentity className="userShowIcon" />
-                <span className="userShowInfoTitle">Hasith Deminda</span>
+                <span className="userShowInfoTitle">{name}</span>
               </div>
               <div className="userShowInfo">
                 <MdMailOutline className="userShowIcon" />
-                <span className="userShowInfoTitle">
-                  demindahasith@gmail.com
-                </span>
+                <span className="userShowInfoTitle">{email}</span>
               </div>
               <span className="userShowTitle">Contact Details</span>
               <div className="userShowInfo">
                 <MdPhoneAndroid className="userShowIcon" />
-                <span className="userShowInfoTitle">0717073719</span>
+                <span className="userShowInfoTitle">{phone}</span>
               </div>
 
               <div className="userShowInfo">
@@ -56,6 +172,12 @@ const UpdateUser = () => {
                 <span className="userShowInfoTitle">
                   Department of Software Engineering | SLIIT
                 </span>
+              </div>
+
+              <span className="userShowTitle">User Role</span>
+              <div className="userShowInfo">
+                <HiUserGroup className="userShowIcon" />
+                <span className="userShowInfoTitle">{role}</span>
               </div>
             </div>
           </div>
@@ -66,7 +188,7 @@ const UpdateUser = () => {
             <span className="userUpdateTitle" style={{ fontWeight: "400" }}>
               Update User Details
             </span>
-            <form className="userUpdateForm">
+            <form className="userUpdateForm" onSubmit={submitHandler}>
               <div className="userUpdateLeft">
                 <div className="userUpdateItem">
                   <label>Full Name</label>
@@ -74,6 +196,8 @@ const UpdateUser = () => {
                     type="text"
                     placeholder=""
                     className="userUpdateInput"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                   />
                 </div>
 
@@ -83,6 +207,8 @@ const UpdateUser = () => {
                     type="email"
                     placeholder=""
                     className="userUpdateInput"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
                 <div className="userUpdateItem">
@@ -91,37 +217,54 @@ const UpdateUser = () => {
                     type="text"
                     placeholder="071 707 3719"
                     className="userUpdateInput"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
                   />
                 </div>
                 <div className="userUpdateItem">
                   <label>Role</label>
-                  <select name="role" id="" className="userUpdateInput">
-                    <option value="">Select Role</option>
-                    <option value="">ADMIN</option>
-                    <option value="">STUDENT</option>
-                    <option value="">SUPERVISOR</option>
-                    <option value="">STAFF</option>
+                  <select
+                    name="role"
+                    id=""
+                    className="userUpdateInput"
+                    value={role}
+                    onChange={(e) => setRole(e.target.value)}
+                  >
+                    <option>ADMIN</option>
+                    <option>STUDENT</option>
+                    <option>STAFF</option>
                   </select>
                 </div>
               </div>
               <div className="userUpdateRight">
                 <div className="userUpdateUpload">
-                  <img
-                    className="userUpdateImg"
-                    src="https://res.cloudinary.com/desnqqj6a/image/upload/v1650175831/fitness_dmymhn.png"
-                    alt=""
-                  />
+                  <img className="userUpdateImg" src={image} alt="" />
                   <label htmlFor="file">
                     <MdPublish className="userUpdateIcon" />
                   </label>
-                  <input type="file" id="file" style={{ display: "none" }} />
+                  <input
+                    type="file"
+                    id="file"
+                    style={{ display: "none" }}
+                    onChange={(e) => {
+                      setImageFile(e.target.files[0]);
+                      let reader = new FileReader();
+                      reader.onloadend = function () {
+                        setImage(reader.result);
+                      };
+                      reader.readAsDataURL(e.target.files[0]);
+                    }}
+                  />
                 </div>
-                <button className="userUpdateButton">Update</button>
+                <button type="submit" className="userUpdateButton">
+                  Update
+                </button>
               </div>
             </form>
           </div>
         </div>
       </div>
+      <Notifications notify={notify} setNotify={setNotify} />
     </div>
   );
 };
