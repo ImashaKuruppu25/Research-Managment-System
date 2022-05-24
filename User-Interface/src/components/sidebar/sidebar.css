@@ -9,17 +9,6 @@
     box-shadow: var(--box-shadow);
 }
 
-.sidebar__logo {
-    height: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.sidebar__logo > img {
-    height: 45px;
-}
-
 .sidebar__item {
     padding: 0 20px;
 }

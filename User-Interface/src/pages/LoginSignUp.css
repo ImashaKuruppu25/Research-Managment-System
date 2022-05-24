@@ -1,5 +1,5 @@
 .LoginSignUpBox {
-  margin-left: 430px;
+  margin-left: 400px;
   background-color: var(--main-bg);
   width: 25vw;
   height: 70vh;
@@ -39,7 +39,7 @@
   margin: auto;
   padding: 2vmax;
   justify-content: space-evenly;
-  height: 70%;
+  height: 85%;
   transition: all 0.5s;
 }
 
@@ -64,6 +64,17 @@
   font: 300 0.9vmax cursive;
   outline: none;
 }
+.form-select {
+  padding: 1vmax 4vmax;
+  padding-right: 1vmax;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.267);
+  border-radius: 4px;
+  font: 300 0.9vmax cursive;
+  outline: none;
+}
+
 
 .loginForm > div > svg,
 .signUpForm > div > svg {
@@ -133,6 +144,7 @@
 .signUpBtn:hover {
   background-color: var(--main-color);
 }
+
 
 .shiftToLeft {
   transform: translateX(-100%);

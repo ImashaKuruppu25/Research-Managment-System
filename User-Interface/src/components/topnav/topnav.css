@@ -8,15 +8,16 @@
     
 }
 
-.topnav__search {
-    position: relative;
-    height: 50px;
-    background-color: var(--main-bg);
+.sidebar__logo {
+    height: 150px;
     display: flex;
+    margin-left: 40px;
     align-items: center;
-    box-shadow: var(--box-shadow);
-    border-radius: var(--border-radius);
-    overflow: hidden;
+    justify-content: center;
+}
+
+.sidebar__logo > img {
+    height: 55px;
 }
 
 .topnav__search > input {
