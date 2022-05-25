@@ -15,7 +15,6 @@ import user_menu from "../../assets/JsonData/user_menus.json";
 const userEmail = localStorage.getItem("userEmail");
 const userImage = localStorage.getItem("userImage");
 
-
 const curr_user = {
   display_name: userEmail,
   image: userImage,
