@@ -21,7 +21,7 @@ export const login = (email, password) => async (dispatch) => {
       { email, password },
       config
     );
-    console.log(data.accesstoken);
+  
     if (data.accesstoken) {
       localStorage.setItem("token", data.accesstoken);
       localStorage.setItem("userEmail", data.user.email);
@@ -58,7 +58,7 @@ export const register = (userData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: REGISTER_USER_FAIL,
-      payload: error.response.data.message,
+      payload: error.response.data.msg
     });
   }
 };

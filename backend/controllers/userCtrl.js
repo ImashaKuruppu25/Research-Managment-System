@@ -3,10 +3,9 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const userCtrl = {
-
-    register: async (req, res) =>{
-        try {
-            const {name, email, password, role} = req.body;
+  register: async (req, res) => {
+    try {
+      const { name, email, password, image, role } = req.body;
 
       const user = await Users.findOne({ email });
       if (user)
@@ -108,7 +107,6 @@ const userCtrl = {
     }
   },
 };
-
 
 const createAccessToken = (user) => {
   return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "11m" });

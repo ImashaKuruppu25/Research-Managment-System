@@ -18,6 +18,9 @@ const Layout = () => {
 
     const themeReducer = useSelector(state => state.ThemeReducer)// get type of state from store
 
+    const userReducer = useSelector(state => state.user)// get type of state from store
+    console.log(userReducer);
+
     const dispatch = useDispatch()
 
     useEffect(() => {
