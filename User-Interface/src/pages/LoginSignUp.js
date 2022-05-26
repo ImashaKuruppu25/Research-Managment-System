@@ -15,9 +15,7 @@ const LoginSignUp = ({ history, location }) => {
   const registerTab = useRef(null);
   const switcherTab = useRef(null);
 
-  const { error, loading, isAuthenticated } = useSelector(
-    (state) => state.user
-  );
+  const { error, loading, isAuthenticated } = useSelector((state) => state.user);
 
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
