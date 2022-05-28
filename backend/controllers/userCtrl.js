@@ -85,7 +85,7 @@ const userCtrl = {
     if (isMatch) {
       res.json({
         user: user,
-        token: generateToken(user._id),
+        accesstoken: generateToken(user._id),
       });
     } else {
       res.status(401);

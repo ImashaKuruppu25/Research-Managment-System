@@ -24,9 +24,10 @@ export const login = (email, password) => async (dispatch) => {
       { email, password },
       config
     );
+    console.log(data);
 
     if (data.accesstoken) {
-      localStorage.setItem("token", data.accesstoken);
+      localStorage.setItem("token", data.token);
       localStorage.setItem("userEmail", data.user.email);
       localStorage.setItem("userId", data.user._id);
       localStorage.setItem("userImage", data.user.image);
