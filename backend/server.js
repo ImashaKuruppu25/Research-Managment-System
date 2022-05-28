@@ -24,7 +24,10 @@ mongoose.connect(
 );
 
 // Router
+//app.use("/user", require("./routes/userRoute"));
+
 app.use("/user", require("./routes/userRoute"));
+app.use("/chat", require("./routes/userRoute"));
 
 //Admin Routes
 app.use("/admin", require("./routes/adminUserRoute"));
