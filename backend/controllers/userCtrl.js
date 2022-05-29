@@ -5,16 +5,16 @@ const jwt = require("jsonwebtoken");
 const userCtrl = {
   register: async (req, res) => {
     try {
-      const { name, email, password, role, image, phone } = req.body;
+      const { name, email, password, image, role } = req.body;
 
       const user = await Users.findOne({ email });
       if (user)
         return res.status(400).json({ msg: "The email already exists." });
 
-      if (password.length < 6)
+      if (password.length < 4)
         return res
           .status(400)
-          .json({ msg: "Password is at least 6 characters long." });
+          .json({ msg: "Password is at least 4 characters long." });
 
       // Password Encryption
       const passwordHash = await bcrypt.hash(password, 10);
@@ -24,7 +24,6 @@ const userCtrl = {
         password: passwordHash,
         role,
         image,
-        phone,
       });
 
       // Save mongodb
@@ -40,7 +39,7 @@ const userCtrl = {
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
 
-      res.json({ accesstoken });
+      res.json({ newUser, accesstoken });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
@@ -65,7 +64,8 @@ const userCtrl = {
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
 
-      res.json({ accesstoken });
+      res.json({ accesstoken:accesstoken, user: user });
+      console.log(accesstoken,user);
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
