@@ -1,13 +1,13 @@
 import React, { Fragment, useRef, useState, useEffect } from "react";
 import "./LoginSignUp.css";
 import { Link } from "react-router-dom";
-import Loader from "../components/loader/Loader";
+import Loader from "../../components/loader/Loader";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import { useDispatch, useSelector } from "react-redux";
 import FaceIcon from "@material-ui/icons/Face";
-import { clearErrors, login, register } from "../redux/actions/userActions";
-import { ToastContainer, toast } from "react-toastify";
+import { clearErrors, login, register } from "../../redux/actions/userActions";
+
 
 const LoginSignUp = ({ history, location }) => {
   const dispatch = useDispatch();
@@ -65,15 +65,12 @@ const LoginSignUp = ({ history, location }) => {
   
 
   useEffect(() => {
-    if (error) {
-      toast.error(error);
-      dispatch(clearErrors());
-    }
+   
 
     if (isAuthenticated) {
       history.push("/");
     }
-  }, [dispatch, error, toast, isAuthenticated]);
+  }, [dispatch, error, isAuthenticated]);
 
   const switcherTabs = (e, tab) => {
     if (tab === "login") {
