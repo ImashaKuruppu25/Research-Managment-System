@@ -35,17 +35,17 @@ const adminGroupManageSchema = new Schema(
     assignedSupervisor: {
       type: Object,
       required: false,
-      // default: "Not Assigned Yet",
+      // default: "🛑 Not Assigned",
     },
     assignedCoSupervisor: {
       type: Object,
       required: false,
-      // default: "Not Assigned Yet",
+      // default: "🛑 Not Assigned",
     },
     assignedPanel: {
       type: Object,
       required: false,
-      // default: "Not Assigned Yet",
+      // default: "🛑 Not Assigned",
     },
   },
   {
