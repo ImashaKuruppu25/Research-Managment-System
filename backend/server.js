@@ -32,6 +32,7 @@ app.use("/marking", require("./routes/adminMarkingRoute"));
 app.use("/panel", require("./routes/adminPanelRoute"));
 app.use("/doc", require("./routes/adminDocumentRoute"));
 app.use("/group", require("./routes/groupRoute"));
+app.use("/submissions", require("./routes/adminSubmissionRoute"));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

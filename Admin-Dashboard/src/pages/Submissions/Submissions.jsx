@@ -7,7 +7,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { pokemons } from "../../dummy";
-import { FcDocument } from "react-icons/fc";
+import { FcFolder } from "react-icons/fc";
 
 const Submissions = () => {
   const [filtredPokemon, setFiltredPokemon] = useState(null);
@@ -21,35 +21,6 @@ const Submissions = () => {
       ? setFiltredPokemon(filterPokemon(typePokemon))
       : setFiltredPokemon(getPokemon());
   }
-
-  const columns = [
-    {
-      field: "groupName",
-      headerName: "Group Name",
-      width: 150,
-      renderCell: (params) => {
-        return <div className="userlist-container">{params.row.groupName}</div>;
-      },
-    },
-    { field: "topic", headerName: "Research Topic", width: 400 },
-    { field: "supervisor", headerName: "Supervisor", width: 200 },
-    { field: "coSupervisor", headerName: "Co Supervisor", width: 170 },
-
-    {
-      field: "action",
-      headerName: "Action",
-      width: 100,
-      renderCell: (params) => {
-        return (
-          <Link to={"/groups/" + params.row.id}>
-            <div className="userlist-container">
-              <button className="userlist-edit-btn">View</button>
-            </div>
-          </Link>
-        );
-      },
-    },
-  ];
 
   return (
     <>
@@ -84,6 +55,16 @@ const Submissions = () => {
           {filtredPokemon &&
             filtredPokemon.map((type) => (
               <div class="grid-item">
+                <span
+                  style={{
+                    fontWeight: "600",
+                    fontSize: "16px",
+                    color: "#ff9066",
+                    letterSpacing: "1.5px",
+                  }}
+                >
+                  {type.type} Document
+                </span>
                 <div className="uploaded-item-container">
                   <div
                     style={{
@@ -92,21 +73,27 @@ const Submissions = () => {
                       justifyContent: "center",
                     }}
                   >
-                    <FcDocument
+                    <FcFolder
                       className="uploaded-item-icon"
                       style={{
                         cursor: "pointer",
                         height: "",
-                        fontSize: "150px",
+                        fontSize: "100px",
+                        marginBottom: "10px",
                       }}
                       onClick={() => window.open(type.subDoc)}
                     />
                   </div>
-                  <div className="uploaded-item-info">
+                  <div
+                    className="uploaded-item-info"
+                    style={{
+                      lineHeight: "100%",
+                    }}
+                  >
                     <h1
                       style={{
                         fontWeight: "200",
-                        fontSize: "20px",
+                        fontSize: "16px",
                       }}
                     >
                       <span>
@@ -118,7 +105,7 @@ const Submissions = () => {
                     <h1
                       style={{
                         fontWeight: "200",
-                        fontSize: "20px",
+                        fontSize: "16px",
                       }}
                     >
                       <span>
@@ -129,7 +116,7 @@ const Submissions = () => {
                     <h1
                       style={{
                         fontWeight: "200",
-                        fontSize: "20px",
+                        fontSize: "16px",
                       }}
                     >
                       <span>

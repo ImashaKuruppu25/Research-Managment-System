@@ -14,4 +14,8 @@
     font-size: 30px;
     text-align: center;
   }
+  .uploaded-item-icon:hover {
+    transform: scale(1.15);
+    transition: all 0.3s ease-in-out;
+  }
 }
