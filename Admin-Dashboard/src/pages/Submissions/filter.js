@@ -1,3 +1,5 @@
+// --------------This is for static data testing, This doesn't work any longer---------
+
 import { pokemons } from "../../dummy";
 
 export function getPokemon() {

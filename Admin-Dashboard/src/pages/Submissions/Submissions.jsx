@@ -3,10 +3,7 @@ import { buttons } from "../../dummy";
 import { getPokemon, filterPokemon } from "./filter";
 import "./Submissions.scss";
 import { Button, ButtonGroup } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
-import { Link } from "react-router-dom";
 import axios from "axios";
-import { pokemons } from "../../dummy";
 import { FcFolder } from "react-icons/fc";
 
 const Submissions = () => {
@@ -22,6 +19,46 @@ const Submissions = () => {
       : setFiltredPokemon(getPokemon());
   }
 
+  const [submissions, setSubmissions] = useState([
+    {
+      groupName: "",
+      topic: "",
+      type: "",
+      subDoc: "",
+      date: "",
+    },
+  ]);
+
+  //Get all submisions
+  useEffect(() => {
+    function getSubmissions() {
+      axios
+
+        .get("http://localhost:5000/submissions/allSubmissions/")
+
+        .then((res) => {
+          console.log(res.data);
+
+          setSubmissions(res.data);
+        })
+
+        .catch((err) => {
+          alert(err.message);
+        });
+    }
+
+    getSubmissions();
+  }, []);
+
+  function getPokemon() {
+    const pokemonList = submissions;
+    return pokemonList;
+  }
+
+  function filterPokemon(pokeType) {
+    let filtredPokemon = getPokemon().filter((type) => type.type === pokeType);
+    return filtredPokemon;
+  }
   return (
     <>
       <div
@@ -40,7 +77,7 @@ const Submissions = () => {
           {buttons &&
             buttons.map((type, index) => (
               <Button
-                style={{ width: "150px" }}
+                style={{ width: "175px" }}
                 key={index}
                 onClick={handlePokemon}
                 value={type.value}
@@ -122,7 +159,7 @@ const Submissions = () => {
                       <span>
                         <strong>Submitted Date : </strong>
                       </span>
-                      2022-02-02
+                      {type.date}
                     </h1>
 
                     <div
