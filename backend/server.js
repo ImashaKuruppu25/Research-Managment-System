@@ -34,6 +34,8 @@ app.use("/doc", require("./routes/adminDocumentRoute"));
 app.use("/group", require("./routes/groupRoute"));
 app.use("/submissions", require("./routes/adminSubmissionRoute"));
 app.use("/dashboard", require("./routes/dashboardroute"));
+app.use("/adminlogin", require("./routes/adminLogin"));
+app.use("/adminRegister", require("./routes/adminRegister"));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

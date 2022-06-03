@@ -121,6 +121,7 @@ const Dashboard = () => {
     getAllGroups();
   }, []);
 
+  console.log(allUsers);
   const data = {
     summary: [
       {
