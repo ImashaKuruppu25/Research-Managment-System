@@ -507,8 +507,9 @@ const UserRoles = () => {
                       margin: "20px 0px",
                       maxHeight: "375px",
                       overflowY: "auto",
-                      paddingRight: "30px",
-                      maxWidth: "700px",
+                      paddingRight: "75px",
+                      maxWidth: "800px",
+
                       // marginLeft: "150px",
                     }}
                   >

@@ -16,10 +16,12 @@
     "express": "^4.17.3",
     "express-async-handler": "^1.2.0",
     "gitignore": "^0.7.0",
+    "joi": "^17.6.0",
+    "joi-password-complexity": "^5.1.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.8",
     "multer": "^1.4.4",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
     "validator": "^13.7.0"
   }
 }

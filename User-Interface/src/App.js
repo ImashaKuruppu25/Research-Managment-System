@@ -4,14 +4,17 @@ import { Route, Switch } from 'react-router-dom'
 
 import Dashboard from './pages/Dashboard'
 import Customers from './pages/Team'
+import LoginSignUp from './pages/LoginSignUp'
 
-const Routes = () => {
+
+const App = () => {
     return (
         <Switch>
             <Route path='/' exact component={Dashboard}/>
             <Route path='/teams' component={Customers}/>
+            <Route path='/login' component={LoginSignUp}/>
         </Switch>
     )
 }
 
-export default Routes
+export default App

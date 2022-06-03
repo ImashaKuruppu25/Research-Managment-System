@@ -9,9 +9,9 @@ import logo from '../../assets/images/logo.png'
 import sidebar_items from '../../assets/JsonData/sidebar_routes.json'
 
 const SidebarItem = props => {
-
+    
     const active = props.active ? 'active' : ''
-
+    
     return (
         <div className="sidebar__item">
             <div className={`sidebar__item-inner ${active}`}>
@@ -30,8 +30,8 @@ const Sidebar = props => {
 
     return (
         <div className='sidebar'>
-            <div className="sidebar__logo">
-                <img src={logo} alt="company logo" />
+            <div style={{marginTop: '30px'}}>
+                
             </div>
             {
                 sidebar_items.map((item, index) => (
