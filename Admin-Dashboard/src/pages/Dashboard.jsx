@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Box from "../components/box/Box";
 import DashboardWrapper, {
   DashboardWrapperMain,
   DashboardWrapperRight,
 } from "../components/dashboard-wrapper/DashboardWrapper";
 import SummaryBox from "../components/summary-box/SummaryBox";
-import { data } from "../constants";
+// import { data } from "../constants";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -18,6 +18,7 @@ import {
 } from "chart.js";
 import OverallList from "../components/overall-list/OverallList";
 import RevenueList from "../components/revenue-list/RevenueList";
+import axios from "axios";
 
 ChartJS.register(
   CategoryScale,
@@ -30,6 +31,131 @@ ChartJS.register(
 );
 
 const Dashboard = () => {
+  const [allUsers, setallUsers] = useState("");
+  const [allStudents, setAllStudents] = useState("");
+  const [allGroups, setAllGroups] = useState("");
+  const [allStaff, setAllStaff] = useState("");
+  const [allPanels, setAllPanels] = useState("");
+
+  useEffect(() => {
+    function getAllUsers() {
+      axios
+
+        .get("http://localhost:5000/dashboard/allUsersCount/")
+
+        .then((res) => {
+          console.log(res.data);
+
+          setallUsers(res.data);
+        })
+
+        .catch((err) => {
+          alert(err.message);
+        });
+    }
+
+    function getAllStudents() {
+      axios
+
+        .get("http://localhost:5000/dashboard/allUsersCount/")
+
+        .then((res) => {
+          console.log(res.data);
+
+          setAllStudents(res.data);
+        })
+
+        .catch((err) => {
+          alert(err.message);
+        });
+    }
+    function getAllGroups() {
+      axios
+
+        .get("http://localhost:5000/dashboard/allUsersCount/")
+
+        .then((res) => {
+          console.log(res.data);
+
+          setAllGroups(res.data);
+        })
+
+        .catch((err) => {
+          alert(err.message);
+        });
+    }
+    function getAllStaff() {
+      axios
+
+        .get("http://localhost:5000/dashboard/allUsersCount/")
+
+        .then((res) => {
+          console.log(res.data);
+
+          setAllStaff(res.data);
+        })
+
+        .catch((err) => {
+          alert(err.message);
+        });
+    }
+    function getAllPanels() {
+      axios
+
+        .get("http://localhost:5000/dashboard/allUsersCount/")
+
+        .then((res) => {
+          console.log(res.data);
+
+          setAllPanels(res.data);
+        })
+
+        .catch((err) => {
+          alert(err.message);
+        });
+    }
+    getAllUsers();
+    getAllStudents();
+    getAllPanels();
+    getAllStaff();
+    getAllGroups();
+  }, []);
+
+  const data = {
+    summary: [
+      {
+        title: "Total Students",
+        subtitle: "Total Students Registerd ",
+        value: `${allUsers}`,
+      },
+      {
+        title: "Total Groups",
+        subtitle: "Total Groups Created",
+        value: "12",
+      },
+      {
+        title: "Total Staff",
+        subtitle: "Total Registered Staff",
+        value: "8",
+      },
+      {
+        title: "Total Panels",
+        subtitle: "Total Alocated Panels",
+        value: "2345",
+      },
+      {
+        title: "Total Users",
+        subtitle: "Total Users Registered",
+        value: "2345",
+      },
+      {
+        title: "Feedbacks",
+        subtitle: "Student Feedbacks",
+        value: "-",
+      },
+    ],
+  };
+  console.log(allStudents);
   return (
     <DashboardWrapper>
       <DashboardWrapperMain>

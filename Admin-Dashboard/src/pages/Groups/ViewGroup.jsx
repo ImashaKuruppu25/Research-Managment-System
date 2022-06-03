@@ -187,7 +187,7 @@ const ViewGroup = () => {
       assignedCoSupervisor,
       assignedPanel,
     };
-
+    console.log(data);
     axios
       .patch(`http://localhost:5000/group/updateGroup/${id}`, data)
       .then((res) => {
@@ -443,7 +443,7 @@ const ViewGroup = () => {
                 </>
               ) : null}
 
-              {assignedPanel ? (
+              {/* {assignedPanel ? (
                 <>
                   <span className="userShowTitle">Assigned Panel</span>
                   <div className="userShowTop">
@@ -487,7 +487,7 @@ const ViewGroup = () => {
                     </div>
                   </div>
                 </>
-              ) : null}
+              ) : null} */}
             </div>
           </div>
 
@@ -699,7 +699,7 @@ const ViewGroup = () => {
                   <label>Panel</label>
                   <select
                     className="userUpdateInput"
-                    value={panel.id}
+                    value={assignedPanel.id}
                     onChange={(e) => panelClickHandler(e.target.value)}
                   >
                     <option>Select Panel</option>
