@@ -337,7 +337,7 @@ const EditPanel = () => {
                       value={panelHead.id}
                       onChange={(e) => panelHeadClickHandler(e.target.value)}
                     >
-                      <option>Select Panel head</option>
+                      <option disabled>Select Panel head</option>
                       {staff.map((staff) => (
                         <option value={staff._id}>{staff.name}</option>
                       ))}
@@ -352,7 +352,7 @@ const EditPanel = () => {
                       value={member1.id}
                       onChange={(e) => member1ClickHandler(e.target.value)}
                     >
-                      <option>Select Panel Member</option>
+                      <option disabled>Select Panel Member</option>
                       {staff.map((staff) => (
                         <option value={staff._id}>{staff.name}</option>
                       ))}
@@ -365,7 +365,7 @@ const EditPanel = () => {
                       value={member2.id}
                       onChange={(e) => member2ClickHandler(e.target.value)}
                     >
-                      <option>Select Panel Member</option>
+                      <option disabled>Select Panel Member</option>
                       {staff.map((staff) => (
                         <option value={staff._id}>{staff.name}</option>
                       ))}

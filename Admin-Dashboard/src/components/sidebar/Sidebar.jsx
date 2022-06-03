@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "./sidebar.scss";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import sidebarNav from "../../configs/sidebarNav";
 
 const Sidebar = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const location = useLocation();
+
+  const Navigate = useNavigate();
 
   useEffect(() => {
     const curPath = window.location.pathname.split("/")[1];
@@ -21,6 +23,12 @@ const Sidebar = () => {
       document.body.classList.remove("sidebar-open");
       document.querySelector(".main__content").style = "";
     }, 500);
+  };
+
+  //Logout
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    Navigate("/home");
   };
 
   return (
@@ -57,7 +65,10 @@ const Sidebar = () => {
             <div className="sidebar__menu__item__icon">{nav.icon}</div>
             <div
               className="sidebar__menu__item__txt"
-              style={{ fontFamily: "monospace", fontSize: "14px" }}
+              style={{
+                fontFamily: "monospace",
+                fontSize: "14px",
+              }}
             >
               {nav.text}
             </div>
@@ -67,7 +78,16 @@ const Sidebar = () => {
           <div className="sidebar__menu__item__icon">
             <i className="bx bx-log-out"></i>
           </div>
-          <div className="sidebar__menu__item__txt">Logout</div>
+          <div
+            className="sidebar__menu__item__txt"
+            style={{
+              fontFamily: "monospace",
+              fontSize: "14px",
+            }}
+            onClick={handleLogout}
+          >
+            Logout
+          </div>
         </div>
       </div>
     </div>
