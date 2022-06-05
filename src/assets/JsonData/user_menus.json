@@ -1,0 +1,22 @@
+[
+    {
+        "icon": "bx bx-user",
+        "content": "Profile",
+        "route": "/teams"
+    },
+    {
+        "icon": "bx bx-wallet-alt",
+        "content": "My Wallet",
+        "route": "/"
+    },
+    {
+        "icon": "bx bx-cog",
+        "content": "Settings",
+        "route": "/"
+    },
+    {
+        "icon": "bx bx-log-out-circle bx-rotate-180",
+        "content": "Logout",
+        "route": "/"
+    }
+]

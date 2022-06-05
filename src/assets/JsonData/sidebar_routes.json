@@ -1,0 +1,28 @@
+[
+    {
+        "display_name": "Dashboard",
+        "route": "/",
+        "icon": "bx bx-category-alt"
+    },
+    {
+        "display_name": "Team",
+        "route": "/teams",
+        "icon": "bx bx-user-plus"
+    },
+    {
+        "display_name": "Chat",
+        "route": "/chat",
+        "icon": "bx bx-chat"
+    },
+    {
+        "display_name": "files",
+        "route": "/files",
+        "icon": "bx bx-file"
+    },
+    {
+        "display_name": "Login",
+        "route": "/login",
+        "icon": "bx bx-log-in-circle"
+    }
+]
+
